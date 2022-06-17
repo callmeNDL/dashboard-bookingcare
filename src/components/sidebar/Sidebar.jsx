@@ -9,12 +9,23 @@ import SettingsSystemDaydreamIcon from '@mui/icons-material/SettingsSystemDaydre
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../context/darkModeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from '../../redux/userSlide'
 
 const Sidebar = () => {
+  const dispatchRD = useDispatch();
   const { dispatch } = useContext(DarkModeContext);
+  const dataUser = useSelector((state) => state.user.data);
+
+
+  const handleGetUser = () => {
+    const user = dataUser.find((item) => item.id == "21")
+    dispatchRD(getCurrentUser(user))
+  }
 
   return (
     <div className='sidebar'>
@@ -38,17 +49,19 @@ const Sidebar = () => {
               <span>Users</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/doctors" style={{ textDecoration: "none" }}>
             <li>
               <AccountCircleIcon className="icon" />
               <span>Doctors</span>
             </li>
           </Link>
+          <Link to="/departments" style={{ textDecoration: "none" }}>
+            <li>
+              <MeetingRoomIcon className="icon" />
+              <span>Department</span>
+            </li>
+          </Link>
           <p className='title'> USEFUL</p>
-          <li>
-            <GroupIcon className="icon" />
-            <span>Group</span>
-          </li>
           <li>
             <LocalShippingIcon className="icon" />
             <span>Delivery</span>
@@ -75,6 +88,7 @@ const Sidebar = () => {
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
+          <li> <div onClick={handleGetUser}>get user</div></li>
         </ul>
       </div>
       <div className='bottom'>

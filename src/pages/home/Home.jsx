@@ -5,8 +5,12 @@ import Widget from '../../components/widget/Widget';
 import Chart from '../../components/chart/Chart';
 import Featured from '../../components/featured/Featured'
 import Table from '../../components/table/Table';
+import { useEffect } from 'react';
 
 const Home = () => {
+
+
+
   return (
     <div className='home'>
       <Sidebar />
@@ -27,6 +31,7 @@ const Home = () => {
           <Table />
         </div>
       </div>
+
     </div>
   )
 }

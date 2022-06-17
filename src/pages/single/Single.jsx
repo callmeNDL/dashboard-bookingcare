@@ -4,7 +4,9 @@ import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
 
-const Single = () => {
+const Single = (props) => {
+
+  console.log("ech", props);
   return (
     <div className="single">
       <Sidebar />

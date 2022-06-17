@@ -1,76 +1,190 @@
+import { useSelector } from 'react-redux';
+export default function GetDataDepartment() {
+  let departmentData = useSelector((state) => state.department.data);
+  console.log("check", departmentData);
+  return departmentData;
+}
+
+
+
 export const userInputs = [
   {
     id: 1,
-    label: "Username",
+    label: "Họ Tên",
+    key: "HoTen",
     type: "text",
     placeholder: "john_doe",
   },
   {
     id: 2,
-    label: "Name and surname",
-    type: "text",
-    placeholder: "John Doe",
+    label: "Ma User",
+    key: "MaUser",
+    type: "number",
+    placeholder: "US001",
   },
   {
     id: 3,
+    label: "Số CMND",
+    key: "CMND",
+    type: "number",
+    placeholder: "123456789",
+  },
+  {
+    id: 4,
+    label: "Tên đăng nhập",
+    key: "username",
+    type: "text",
+    placeholder: "johndone001",
+  },
+  {
+    id: 5,
+    label: "Chức vụ",
+    key: "MaChucVu",
+    type: "select",
+    data: [{ key: 1, value: "Bệnh nhân" }, { key: 2, value: "Admin" }]
+  },
+  {
+    id: 6,
+    label: "Giới tính",
+    key: "GioiTinh",
+    type: "radio",
+    data: [{ key: 1, value: "Male" }, { key: 0, value: "Female" }]
+  },
+  {
+    id: 7,
     label: "Email",
+    key: "email",
     type: "mail",
     placeholder: "john_doe@gmail.com",
   },
   {
-    id: 4,
-    label: "Phone",
-    type: "text",
+    id: 8,
+    label: "Số điện thoại",
+    key: "SDT",
+    type: "number",
     placeholder: "+1 234 567 89",
   },
   {
-    id: 5,
-    label: "Password",
+    id: 9,
+    label: "Mật khẩu",
+    key: "password",
     type: "password",
   },
   {
-    id: 6,
-    label: "Address",
+    id: 10,
+    label: "Địa chỉ",
+    key: "DiaChi",
     type: "text",
     placeholder: "Elton St. 216 NewYork",
   },
   {
-    id: 7,
-    label: "Country",
-    type: "text",
-    placeholder: "USA",
+    id: 11,
+    label: "Ngày sinh",
+    key: "NgaySinh",
+    type: "date",
+    placeholder: "",
   },
 ];
 
-export const productInputs = [
+export const doctorInputs = [
   {
     id: 1,
-    label: "Title",
+    label: "Họ Tên",
+    key: "HoTen",
     type: "text",
-    placeholder: "Apple Macbook Pro",
+    placeholder: "john_doe",
   },
   {
     id: 2,
-    label: "Description",
-    type: "text",
-    placeholder: "Description",
+    label: "Ma BS",
+    key: "MaBS",
+    type: "number",
+    placeholder: "222001",
   },
   {
     id: 3,
-    label: "Category",
-    type: "text",
-    placeholder: "Computers",
+    label: "Số CMND",
+    key: "CMND",
+    type: "number",
+    placeholder: "123456789",
   },
   {
     id: 4,
-    label: "Price",
+    label: "Tên đăng nhập",
+    key: "username",
     type: "text",
-    placeholder: "100",
+    placeholder: "johndone001",
   },
   {
     id: 5,
-    label: "Stock",
+    label: "Chức vụ",
+    key: "MaChucVu",
+    type: "select",
+    data: [{ key: 1, value: "Bệnh nhân" }, { key: 2, value: "Admin" }]
+  },
+  {
+    id: 6,
+    label: "Giới tính",
+    key: "GioiTinh",
+    type: "radio",
+    data: [{ key: 1, value: "Male" }, { key: 0, value: "Female" }]
+  },
+  {
+    id: 7,
+    label: "Email",
+    key: "email",
+    type: "mail",
+    placeholder: "john_doe@gmail.com",
+  },
+  {
+    id: 8,
+    label: "Số điện thoại",
+    key: "SDT",
+    type: "number",
+    placeholder: "+1 234 567 89",
+  },
+  {
+    id: 9,
+    label: "Mật khẩu",
+    key: "password",
+    type: "password",
+  },
+  {
+    id: 10,
+    label: "Địa chỉ",
+    key: "DiaChi",
     type: "text",
-    placeholder: "in stock",
+    placeholder: "Elton St. 216 NewYork",
+  },
+  {
+    id: 11,
+    label: "Ngày sinh",
+    key: "NgaySinh",
+    type: "date",
+    placeholder: "",
+  },
+];
+export const departmentInputs = [
+  {
+    id: 1,
+    label: "Ma Khoa",
+    key: "MaKhoa",
+    type: "number",
+
+    placeholder: "101",
+  },
+  {
+    id: 2,
+    label: "Tên Khoa",
+    key: "TenKhoa",
+    type: "text",
+    placeholder: "Khoa ...",
+  },
+  {
+    id: 3,
+    label: "Mô tả",
+    key: "MoTa",
+    type: "text",
+    placeholder: "...",
   },
 ];
