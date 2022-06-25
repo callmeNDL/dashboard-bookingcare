@@ -5,8 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 const Datatable = (props) => {
 
-  console.log('check props', props);
-
   const handleDele = async (id) => {
     try {
       const response = await axios.delete(`http://localhost:8001/api/${props.data.titleApi}/delete-${props.data.titleApi}`, {

@@ -1,78 +1,4 @@
-// import "./single.scss";
-// import Sidebar from "../../components/sidebar/Sidebar";
-// import Navbar from "../../components/navbar/Navbar";
-// import Chart from "../../components/chart/Chart";
-// import List from "../../components/table/Table";
-// import { useSelector } from 'react-redux';
-// import { useEffect, useState } from "react";
-
-// const Single = (props) => {
-//   let navigate = useNavigate();
-//   let { userID } = useParams();
-//   const [data, setData] = useState();
-//   const dataUser = useSelector((state) => state.user.data);
-//   let user = null;
-//   user = dataUser.find((item) => item.id == `${userID}`)
-//   if (!user) {
-//     navigate('/users');
-//   } else {
-//     console.log(userID, user);
-//   }
-//   useEffect(() => {
-
-//   }, [data])
-
-//   return (
-//     <div className="single">
-//       <Sidebar />
-//       <div className="singleContainer">
-//         <Navbar />
-//         <div className="top">
-//           <div className="left">
-//             <div className="editButton">Edit</div>
-//             <h1 className="title">Information</h1>
-//             <div className="item">
-//               <img
-//                 src={user.HinhAnh}
-//                 alt=""
-//                 className="itemImg"
-//               />
-//               <div className="details">
-//                 <h1 className="itemTitle">{user.HoTen}</h1>
-//                 <div className="detailItem">
-//                   <span className="itemKey">Email:</span>
-//                   <span className="itemValue">{user.email}</span>
-//                 </div>
-//                 <div className="detailItem">
-//                   <span className="itemKey">Phone:</span>
-//                   <span className="itemValue">{user.SDT}</span>
-//                 </div>
-//                 <div className="detailItem">
-//                   <span className="itemKey">Address:</span>
-//                   <span className="itemValue">
-//                     {user.DiaChi}
-//                   </span>
-//                 </div>
-//                 <div className="detailItem">
-//                   <span className="itemKey">Country:</span>
-//                   <span className="itemValue">USA</span>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//         </div>
-//         {/* <div className="bottom">
-//           <h1 className="title">Last Transactions</h1>
-//           <List />
-//         </div> */}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Single;
-import "../new/new.scss";
+import "./single.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -88,10 +14,13 @@ const Single = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [department, setDepartment] = useState("");
   let { userID } = useParams();
-  const [data, setData] = useState();
+  const [goitinh, setGioiTinh] = useState();
   const dataUser = useSelector((state) => state.user.data);
+  let user = dataUser.find((item) => item.id == `${userID}`)
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, } = useForm({
+    defaultValues: user
+  });
   const navigate = useNavigate();
   const departmentData = useSelector((state) => state.department.data);
 
@@ -106,23 +35,23 @@ const Single = ({ inputs, title }) => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`http://localhost:8001/api/${title}/create-${title}`, data);
+      const response = await axios.put(`http://localhost:8001/api/${title}/update-${title}`, data);
       if (response.data.errCode === '1') {
         toast.error(response.data.errMessage)
       } else {
+        toast.error(response.data.errMessage)
         return navigate(`/${title}s`)
       }
     } catch (error) {
       toast.error(error.data)
     }
-    // console.log(data);
   };
-
-  let user = dataUser.find((item) => item.id == `${userID}`)
   useEffect(() => {
     assignDepartment(departmentData);
+    setGioiTinh(user.GioiTinh)
   }, [department])
 
+  console.log("render");
 
   return (
     <div className="new">
@@ -135,11 +64,7 @@ const Single = ({ inputs, title }) => {
         <div className="bottom">
           <div className="left">
             <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
+              src={user.HinhAnh.length !== 0 ? `${user.HinhAnh}` : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"}
               alt="avatar"
             />
           </div>
@@ -159,7 +84,6 @@ const Single = ({ inputs, title }) => {
               {
 
                 inputs.map((input) => {
-                  console.log(user);
                   if (input.type === "select") {
                     if (input.key === "MaKhoa") {
                       return <div className="formInput" key={input.id}>
@@ -187,9 +111,9 @@ const Single = ({ inputs, title }) => {
                       <label>{input.label}</label>
                       <div className="inputRadioWrap">
                         {input.data.map((option) => {
-                          return <div className="inputRadio" key={option.key}>
+                          return <div className="inputRadio" key={option.key} onChange={() => { setGioiTinh(!goitinh) }}>
                             <label htmlFor="html">{option.value}</label>
-                            <input type="radio" name={input.key} value={option.key} {...register(`${input.key}`)} />
+                            <input type="radio" name={input.key} value={option.key} checked={option.key == goitinh} {...register(`${input.key}`)} />
                           </div>
                         })}
                       </div>
@@ -205,13 +129,23 @@ const Single = ({ inputs, title }) => {
                           { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, })}
                       />
                     </div>
-                  } else {
+                  }
+                  if (input.type === "password") {
                     return <div className="formInput" key={input.id}>
                       <label>{input.label}</label>
                       <input
                         type={input.type}
                         placeholder={input.placeholder}
-                        value={user.MaUser}
+                        disabled
+                        value="aaaaaa"
+                      />
+                    </div>
+                  } else {
+                    return <div className={`formInput ${input.key}`} key={input.id}>
+                      <label>{input.label}</label>
+                      <input
+                        type={input.type}
+                        placeholder={input.placeholder}
                         {...register(`${input.key}`, { required: true, minLength: 3 })}
                       />
                     </div>
@@ -219,7 +153,7 @@ const Single = ({ inputs, title }) => {
                 })}
 
 
-              <button type="submit">UP</button>
+              <button type="submit">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"

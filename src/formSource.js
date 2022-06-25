@@ -39,6 +39,7 @@ export const userInputs = [
     label: "Giới tính",
     key: "GioiTinh",
     type: "radio",
+    // data: [{ key: true, value: "Male" }, { key: false, value: "Female" }]
     data: [{ key: 1, value: "Male" }, { key: 0, value: "Female" }]
   },
   {
@@ -126,6 +127,7 @@ export const doctorInputs = [
     key: "GioiTinh",
     type: "radio",
     data: [{ key: 1, value: "Male" }, { key: 0, value: "Female" }]
+    // data: [{ key: "true", value: "Male" }, { key: "false", value: "Female" }]
   },
   {
     id: 8,

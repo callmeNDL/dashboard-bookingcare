@@ -92,7 +92,7 @@ function App() {
               <Route path="new" element={<New inputs={bookingInputs} title="booking" />} />
             </Route>
           </Route>
-        </Routes>x
+        </Routes>
       </BrowserRouter>
     </div>
   );

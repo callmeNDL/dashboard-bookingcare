@@ -39,17 +39,18 @@ const New = ({ inputs, title }) => {
   }
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post(`http://localhost:8001/api/${title}/create-${title}`, data);
-      if (response.data.errCode === '1') {
-        toast.error(response.data.errMessage)
-      } else {
-        return navigate(`/${title}s`)
-      }
-      console.log(response);
-    } catch (error) {
-      toast.error(error.data)
-    }
+    // try {
+    //   const response = await axios.post(`http://localhost:8001/api/${title}/create-${title}`, data);
+    //   if (response.data.errCode === '1') {
+    //     toast.error(response.data.errMessage)
+    //   } else {
+    //     return navigate(`/${title}s`)
+    //   }
+    //   console.log(response);
+    // } catch (error) {
+    //   toast.error(error.data)
+    // }
+    console.log(data);
   };
 
   useEffect(() => {
