@@ -2,31 +2,60 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 const New = ({ inputs, title }) => {
+  const [file, setFile] = useState("");
+  const [department, setDepartment] = useState("");
+  const [user, setUser] = useState("");
+  const [doctor, setDoctor] = useState("");
+
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const departmentData = useSelector((state) => state.department.data);
+  const userData = useSelector((state) => state.user.data);
+  const doctorData = useSelector((state) => state.doctor.data);
+
+  const assignDepartment = (department, user, doctor) => {
+    inputs.forEach(input => {
+      if (input.key === "MaKhoa" && Object.keys(department).length !== 0) {
+        input.data = department;
+        setDepartment(department)
+      };
+      if (input.key === "MaUser" && Object.keys(department).length !== 0) {
+        input.data = user;
+        setUser(user)
+      };
+      if (input.key === "MaBS" && Object.keys(department).length !== 0) {
+        input.data = doctor;
+        setDoctor(doctor)
+      };
+    })
+  }
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`http://localhost:8001/api/${title}/create-${title}`, data);
-
-      if (response.data.errCode == '1') {
+      if (response.data.errCode === '1') {
         toast.error(response.data.errMessage)
       } else {
         return navigate(`/${title}s`)
       }
+      console.log(response);
     } catch (error) {
       toast.error(error.data)
     }
   };
 
-  const [file, setFile] = useState("");
+  useEffect(() => {
+    assignDepartment(departmentData, userData, doctorData);
+  }, [department, user, doctor])
+
   return (
     <div className="new">
       <Sidebar />
@@ -61,19 +90,59 @@ const New = ({ inputs, title }) => {
               </div>
               {
                 inputs.map((input) => {
+                  if (input.type === "select") {
+                    if (input.key === "MaKhoa") {
+                      return <div className="formInput" key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.MaKhoa} key={option.MaKhoa}>{option.TenKhoa}</option>
+                          })}
+                        </select>
+                      </div>
+                    }
+                    if (input.key === "MaUser") {
+                      return <div className="formInput" key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.MaUser} key={option.MaUser}>{option.HoTen}</option>
+                          })}
+                        </select>
+                      </div>
+                    }
+                    if (input.key === "MaBS") {
+                      return <div className="formInput" key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.MaBS} key={option.MaBS}>{option.HoTen}</option>
+                          })}
+                        </select>
+                      </div>
+                    }
+                    if (input.key === "TrangThai") {
+                      return <div className="formInput" key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.value} key={option.key}>{option.value}</option>
+                          })}
+                        </select>
+                      </div>
+                    } else {
+                      return <div className="formInput" key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.key} key={option.key}>{option.value}</option>
+                          })}
+                        </select>
+                      </div>
+                    }
 
-                  if (input.type == "select") {
-
-                    return <div className="formInput" key={input.id}>
-                      <label>{input.label}</label>
-                      <select name={input.label} {...register(`${input.key}`)}>
-                        {input.data.map((option) => {
-                          return <option value={option.key} key={option.key}>{option.value}</option>
-                        })}
-                      </select>
-                    </div>
                   }
-                  if (input.type == "radio") {
+                  if (input.type === "radio") {
                     return <div className="formInput" key={input.id}>
                       <label>{input.label}</label>
                       <div className="inputRadioWrap">
@@ -86,7 +155,7 @@ const New = ({ inputs, title }) => {
                       </div>
                     </div>
                   }
-                  if (input.type == "email") {
+                  if (input.type === "email") {
                     return <div className="formInput" key={input.id}>
                       <label>{input.label}</label>
                       <input

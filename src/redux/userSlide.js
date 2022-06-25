@@ -9,6 +9,14 @@ export const getUser = createAsyncThunk(
     return result;
   }
 )
+export const deleteUser = createAsyncThunk(
+  'user/getUser',
+  async () => {
+    const data = await axios.get('http://localhost:8001/api/user?id=ALL');
+    const result = data.data.users;
+    return result;
+  }
+)
 const userSlide = createSlice({
   name: "user",
   initialState: {
@@ -18,10 +26,11 @@ const userSlide = createSlice({
     error: ''
   },
   reducers: {
+    addUser: (state, action) => {
+      state.data.push(action.payload)
+    },
     getCurrentUser: (state, action) => {
-      console.log("check payload", action.payload);
       state.user = action.payload;
-
     }
   },
   extraReducers: {
@@ -39,6 +48,6 @@ const userSlide = createSlice({
     },
   }
 })
-export const { getCurrentUser } = userSlide.actions;
 const { reducer: userReducer } = userSlide;
+export const { addUser, getCurrentUser } = userSlide.actions;
 export default userReducer;

@@ -2,7 +2,6 @@ import './Sidebar.scss'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import GroupIcon from '@mui/icons-material/Group';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsSystemDaydreamIcon from '@mui/icons-material/SettingsSystemDaydream';
@@ -13,19 +12,11 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../context/darkModeContext';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser } from '../../redux/userSlide'
 
 const Sidebar = () => {
-  const dispatchRD = useDispatch();
   const { dispatch } = useContext(DarkModeContext);
-  const dataUser = useSelector((state) => state.user.data);
-
-
-  const handleGetUser = () => {
-    const user = dataUser.find((item) => item.id == "21")
-    dispatchRD(getCurrentUser(user))
-  }
 
   return (
     <div className='sidebar'>
@@ -61,11 +52,13 @@ const Sidebar = () => {
               <span>Department</span>
             </li>
           </Link>
-          <p className='title'> USEFUL</p>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
+          <p className='title'> BOOKING</p>
+          <Link to="/bookings" style={{ textDecoration: "none" }}>
+            <li>
+              <BookmarkAddIcon className="icon" />
+              <span>Booking</span>
+            </li>
+          </Link>
           <p className='title'> SERVICE</p>
           <li>
             <NotificationsIcon className="icon" />
@@ -88,7 +81,6 @@ const Sidebar = () => {
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
-          <li> <div onClick={handleGetUser}>get user</div></li>
         </ul>
       </div>
       <div className='bottom'>

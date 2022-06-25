@@ -3,6 +3,7 @@ import userReducer from './userSlide';
 import authReducer from './authSlide';
 import doctorReducer from './doctorSlide';
 import departmentReducer from './departmentSlide';
+import bookingReducer from './bookingSlide';
 
 
 export default configureStore({
@@ -10,6 +11,7 @@ export default configureStore({
     user: userReducer,
     auth: authReducer,
     doctor: doctorReducer,
-    department: departmentReducer
+    department: departmentReducer,
+    booking: bookingReducer,
   }
 })

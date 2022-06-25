@@ -58,6 +58,27 @@
       background-color: rgba(255, 0, 0, 0.05);
       color: crimson;
     }
+
+    &--new {
+      padding: 10px 15px;
+      background: #298b24;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    &--confirmed {
+      padding: 10px 15px;
+      background: goldenrod;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    &--failure {
+      padding: 10px 15px;
+      background: crimson;
+      border-radius: 10px;
+      font-weight: bold;
+    }
   }
 
   .cellAction {
