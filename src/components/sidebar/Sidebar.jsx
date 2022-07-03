@@ -2,10 +2,6 @@ import './Sidebar.scss'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import SettingsSystemDaydreamIcon from '@mui/icons-material/SettingsSystemDaydream';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
@@ -13,7 +9,14 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../context/darkModeContext';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import { useDispatch, useSelector } from 'react-redux';
+import BadgeIcon from '@mui/icons-material/Badge';
+import MedicationOutlinedIcon from '@mui/icons-material/MedicationOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import DoorBackIcon from '@mui/icons-material/DoorBack';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
@@ -46,10 +49,22 @@ const Sidebar = () => {
               <span>Doctors</span>
             </li>
           </Link>
+          <Link to="/schedules" style={{ textDecoration: "none" }}>
+            <li>
+              <CalendarMonthIcon className="icon" />
+              <span>Lịch làm việc</span>
+            </li>
+          </Link>
           <Link to="/departments" style={{ textDecoration: "none" }}>
             <li>
               <MeetingRoomIcon className="icon" />
               <span>Department</span>
+            </li>
+          </Link>
+          <Link to="/clinics" style={{ textDecoration: "none" }}>
+            <li>
+              <DoorBackIcon className="icon" />
+              <span>Clinic</span>
             </li>
           </Link>
           <p className='title'> BOOKING</p>
@@ -59,19 +74,46 @@ const Sidebar = () => {
               <span>Booking</span>
             </li>
           </Link>
+          <Link to="/medicalExaminations" style={{ textDecoration: "none" }}>
+            <li>
+              <FeaturedPlayListIcon className="icon" />
+              <span>Phiếu Khám</span>
+            </li>
+          </Link>
+          <Link to="/medicalTests" style={{ textDecoration: "none" }}>
+            <li>
+              <FactCheckOutlinedIcon className="icon" />
+              <span>Phiếu xét nghiệm</span>
+            </li>
+          </Link>
+          <p className='title'> GROUP</p>
+          <Link to="/roles" style={{ textDecoration: "none" }}>
+            <li>
+              <BadgeIcon className="icon" />
+              <span>Role</span>
+            </li>
+          </Link>
+
           <p className='title'> SERVICE</p>
-          <li>
-            <NotificationsIcon className="icon" />
-            <span>Notification</span>
-          </li>
-          <li>
-            <SettingsSystemDaydreamIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <SettingsIcon className="icon" />
-            <span>Setting</span>
-          </li>
+          <Link to="/prescriptions" style={{ textDecoration: "none" }}>
+            <li>
+              <DescriptionOutlinedIcon className="icon" />
+              <span>Prescriptions</span>
+            </li>
+          </Link>
+          <Link to="/prescriptionDetails" style={{ textDecoration: "none" }}>
+            <li>
+              <InfoOutlinedIcon className="icon" />
+              <span>Prescriptions Detail</span>
+            </li>
+          </Link>
+          <Link to="/medicines" style={{ textDecoration: "none" }}>
+            <li>
+              <MedicationOutlinedIcon className="icon" />
+              <span>Medicine</span>
+            </li>
+          </Link>
+
           <p className='title'> USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />

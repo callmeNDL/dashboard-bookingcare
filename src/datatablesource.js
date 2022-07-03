@@ -1,5 +1,5 @@
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "MaUser", headerName: "MaUser", width: 80 },
   {
     field: "user",
     headerName: "User",
@@ -29,16 +29,15 @@ export const userColumns = [
     width: 100,
   },
   {
-    field: "status",
+    field: "SDT",
+    headerName: "SDT",
+    width: 100,
+  },
+  {
+    field: "MaChucVu",
     headerName: "MaChucVu",
     width: 100,
-    renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.MaChucVu}`}>
-          {params.row.MaChucVu}
-        </div>
-      );
-    },
+
   },
   {
     field: "NgaySinh",
@@ -47,20 +46,89 @@ export const userColumns = [
   },
 ];
 
-
-export const departmentColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+export const doctorColumns = [
   {
-    field: "maKhoa",
-    headerName: "MaKhoa",
-    width: 100,
+    field: "MaBS",
+    headerName: "MaBS",
+    width: 70,
+  },
+  {
+    field: "doctor",
+    headerName: "Doctor",
+    width: 200,
     renderCell: (params) => {
       return (
-        <div className={`cellWithStatus ${params.row.MaKhoa}`}>
-          {params.row.MaKhoa}
+        <div className="cellWithImg">
+          <img className="cellImg" src={params.row.HinhAnh} alt="avatar" />
+          {params.row.username}
         </div>
       );
     },
+  },
+  {
+    field: "MaKhoa",
+    headerName: "MaKhoa",
+    width: 100,
+  },
+  {
+    field: "HoTen",
+    headerName: "HoTen",
+    width: 230,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 230,
+  },
+  {
+    field: "ChuyenNganh",
+    headerName: "ChuyenNganh",
+    width: 200,
+  },
+  {
+    field: "CMND",
+    headerName: "CMND",
+    width: 100,
+  },
+
+  {
+    field: "NgaySinh",
+    headerName: "NgaySinh",
+    width: 150,
+  },
+
+];
+export const scheduleColumns = [
+  {
+    field: "MaBS",
+    headerName: "MaBS",
+    width: 150,
+  },
+  {
+    field: "MaPhong",
+    headerName: "MaPhong",
+    width: 200,
+
+  },
+  {
+    field: "CaKham",
+    headerName: "CaKham",
+    width: 200,
+  },
+  {
+    field: "NgayKham",
+    headerName: "NgayKham",
+    width: 230,
+  },
+
+];
+
+export const departmentColumns = [
+  {
+    field: "MaKhoa",
+    headerName: "MaKhoa",
+    width: 100,
+
   },
   {
     field: "TenKhoa",
@@ -75,7 +143,6 @@ export const departmentColumns = [
 ];
 
 export const bookingColumns = [
-  { field: "id", headerName: "ID", width: 70 },
   {
     field: "MaDL",
     headerName: "MaDL",
@@ -112,10 +179,219 @@ export const bookingColumns = [
     width: 150,
     renderCell: (params) => {
       return (
-        <div className={`cellWithStatus--${params.row.TrangThai}`}>
+        <div className={`cellWithStatus cellWithStatus--${params.row.TrangThai}`}>
           {params.row.TrangThai}
         </div>
       );
     },
+  },
+];
+export const medicalExaminationColumns = [
+  {
+    field: "MaPK",
+    headerName: "MaPK",
+    width: 100,
+  },
+  {
+    field: "MaDL",
+    headerName: "MaDL",
+    width: 100,
+  },
+  {
+    field: "CaKham",
+    headerName: "CaKham",
+    width: 100,
+  },
+  {
+    field: "NgayKham",
+    headerName: "NgayKham",
+    width: 150,
+  },
+  {
+    field: "KetQua",
+    headerName: "KetQua",
+    width: 250,
+  },
+];
+export const medicalTestColumns = [
+  {
+    field: "id",
+    headerName: "MaPXN",
+    width: 100,
+  },
+  {
+    field: "MaBS",
+    headerName: "MaBS",
+    width: 100,
+  },
+  {
+    field: "MaPK",
+    headerName: "MaPK",
+    width: 100,
+  },
+  {
+    field: "TenPXN",
+    headerName: "TenPXN",
+    width: 100,
+  },
+  {
+    field: "KetQua",
+    headerName: "KetQua",
+    width: 250,
+  },
+  {
+    field: "NgayXN",
+    headerName: "NgayXN",
+    width: 150,
+  },
+  {
+    field: "TrangThai",
+    headerName: "TrangThai",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus cellWithStatus--${params.row.TrangThai}`}>
+          {params.row.TrangThai}
+        </div>
+      );
+    },
+  },
+];
+export const roleColumns = [
+  {
+    field: "MaChucVu",
+    headerName: "MaChucVu",
+    width: 200,
+
+  },
+  {
+    field: "TenChucVu",
+    headerName: "TenChucVu",
+    width: 500,
+  },
+];
+
+export const medicineColumns = [
+  { field: "MaThuoc", headerName: "MaThuoc", width: 80 },
+  {
+    field: "TenThuoc",
+    headerName: "TenThuoc",
+    width: 200,
+  },
+  {
+    field: "ThanhPhan",
+    headerName: "ThanhPhan",
+    width: 230,
+  },
+  {
+    field: "CongDung",
+    headerName: "CongDung",
+    width: 100,
+  },
+  {
+    field: "GiaBan",
+    headerName: "GiaBan",
+    width: 100,
+  },
+  {
+    field: "DonVi",
+    headerName: "DonVi",
+    width: 70,
+  },
+  {
+    field: "NgaySX",
+    headerName: "NgaySX",
+    width: 150,
+  },
+];
+export const clinicColumns = [
+  { field: "MaPhong", headerName: "MaPhong", width: 100 },
+  {
+    field: "MaKhoa",
+    headerName: "MaKhoa",
+    width: 100,
+  },
+  {
+    field: "TenPhongKham",
+    headerName: "TenPhongKham",
+    width: 300,
+  },
+  {
+    field: "ChucNang",
+    headerName: "ChucNang",
+    width: 400,
+  },
+];
+export const prescriptionColumns = [
+  { field: "MaDT", headerName: "MaDT", width: 70 },
+  {
+    field: "MaBS",
+    headerName: "MaBS",
+    width: 100,
+  },
+  {
+    field: "MaUser",
+    headerName: "MaUser",
+    width: 100,
+  },
+  {
+    field: "TinhTrang",
+    headerName: "TinhTrang",
+    width: 250,
+  },
+  {
+    field: "NgayCap",
+    headerName: "NgayCap",
+    width: 150,
+  },
+  {
+    field: "LoiDanBS",
+    headerName: "LoiDanBS",
+    width: 250,
+  },
+  {
+    field: "TrangThai",
+    headerName: "TrangThai",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus cellWithStatus--${params.row.TrangThai}`}>
+          {params.row.TrangThai}
+        </div>
+      );
+    },
+  },
+  {
+    field: "TongTienThuoc",
+    headerName: "TongTienThuoc",
+    width: 150,
+  },
+];
+export const prescriptionDetailColumns = [
+  { field: "MaDT", headerName: "MaDT", width: 70 },
+  {
+    field: "MaThuoc",
+    headerName: "MaThuoc",
+    width: 100,
+  },
+  {
+    field: "LieuLuong",
+    headerName: "LieuLuong",
+    width: 100,
+  },
+  {
+    field: "SoLuong",
+    headerName: "SoLuong",
+    width: 100,
+  },
+  {
+    field: "SoNgayUong",
+    headerName: "SoNgayUong",
+    width: 150,
+  },
+  {
+    field: "TongTienThuoc",
+    headerName: "TongTienThuoc",
+    width: 150,
   },
 ];

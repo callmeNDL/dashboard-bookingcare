@@ -1,8 +1,8 @@
-.new {
+.single {
   width: 100%;
   display: flex;
 
-  .newContainer {
+  .singleContainer {
     flex: 6;
 
     .top,
@@ -14,8 +14,8 @@
       display: flex;
 
       h1 {
-        color: lightgray;
-        font-size: 20px;
+        color: rgb(73 77 169);
+        font-size: 25px;
       }
 
       .left {
@@ -40,6 +40,8 @@
           flex-wrap: wrap;
           gap: 30px;
           justify-content: space-around;
+
+          
 
           .formInput {
             width: 40%;
@@ -78,8 +80,29 @@
               border-bottom: 1px solid gray;
             }
           }
+          .MaKhoa, .MaChucVu ,.MaDT,.TongTienThuoc{
+            &--update {
+              pointer-events:none;
+              
+              input {
+               background:#FAFAFA;
+              }
+            }
+          }
 
-          .MaUser, .username{
+          .medicalExamination {
+            &-update {
+              &--MaPK {
+                pointer-events:none;
+              
+                input {
+                 background:#FAFAFA;
+                }
+              }
+            }
+          }
+
+          .MaUser,.MaBS, .username{
             pointer-events:none;
             display: none;
             
@@ -102,4 +125,14 @@
       }
     }
   }
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
