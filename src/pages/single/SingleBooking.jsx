@@ -1,16 +1,16 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
+import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/userSlide';
 import { getBooking } from '../../redux/bookingSlide';
 import { getDoctor } from '../../redux/doctorSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleBooking = ({ inputs, title }) => {
@@ -18,9 +18,9 @@ const SingleBooking = ({ inputs, title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [file, setFile] = useState("");
-  const [id, setID] = useState('');
   const [data, setData] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+  const [inputData, setInputData] = useState([]);
 
   const assignDepartment = async () => {
     const userResult = await dispatch(getUser());
@@ -30,13 +30,16 @@ const SingleBooking = ({ inputs, title }) => {
     const dataDoctor = unwrapResult(doctorResult);
 
     inputs.forEach(input => {
-
       if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
         input.data = dataUser;
+        const user = dataUser.find((item) => item.MaUser === currentBooking.MaUser);
+        setCurrentUser(user)
       };
       if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
         input.data = dataDoctor;
       };
+      setInputData(inputs)
+
     })
   }
 
@@ -48,7 +51,6 @@ const SingleBooking = ({ inputs, title }) => {
       if (!currentBooking) {
         return navigate(`/${title}s`)
       } else {
-        setID(bookingID);
         setData(currentBooking);
       }
     }
@@ -75,15 +77,12 @@ const SingleBooking = ({ inputs, title }) => {
 
   const dataBooking = useSelector((state) => state.booking.data);
   let currentBooking = dataBooking.find((item) => item.id == `${bookingID}`);
-  console.log(currentBooking);
-  // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentBooking });
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentBooking });
+
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -91,7 +90,7 @@ const SingleBooking = ({ inputs, title }) => {
           <div className="right">
             <form onSubmit={handleSubmit(onSubmit)}>
               {
-                inputs.map((input) => {
+                inputData?.map((input) => {
                   if (input.type === "select") {
                     if (input.key === "MaKhoa") {
                       return <div className="formInput" key={input.id}>
@@ -118,7 +117,7 @@ const SingleBooking = ({ inputs, title }) => {
                         <label>{input.label}</label>
                         <select name={input.label} {...register(`${input.key}`)}>
                           {input.data.map((option) => {
-                            return <option value={option.MaUser} key={option.MaUser}>{option.HoTen}</option>
+                            return <option value={option.MaUser} key={option.MaUser}>{option.MaUser}-{option.HoTen}</option>
                           })}
                         </select>
                       </div>
@@ -164,7 +163,7 @@ const SingleBooking = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -177,9 +176,15 @@ const SingleBooking = ({ inputs, title }) => {
               draggable
               pauseOnHover
             />
+            <div className="btn-box">
+              <Link to={`/users/${currentUser?.id}`} className="link">
+                <button className="btn"> <InfoIcon className=" icon" /> Chi tiết bệnh nhân</button>
+              </Link>
+            </div>
           </div>
+
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

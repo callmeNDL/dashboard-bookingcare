@@ -1,35 +1,42 @@
 import './style/dark.scss';
+import './style/globalStyle.scss';
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import New from "./pages/new/New";
 import { SingleMedicalTest, SingleMedicalExamination, Single, SingleDoctor, SingleDepartment, SingleRole, SingleClinic, SingleMedicine, SingleBooking, SinglePrescription, SinglePrescriptionDetail, SingleSchedule } from './pages/single/index'
-import { BrowserRouter, Routes, Route, } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { medicalTestInputs, medicalExaminationInputs, scheduleInputs, doctorInputs, userInputs, departmentInputs, bookingInputs, roleInputs, medicineInputs, clinicInputs, prescriptionInputs, prescriptionDetailInputs } from "./formSource";
 import { medicalTestColumns, medicalExaminationColumns, scheduleColumns, userColumns, departmentColumns, bookingColumns, roleColumns, doctorColumns, medicineColumns, clinicColumns, prescriptionColumns, prescriptionDetailColumns } from './datatablesource';
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import NewPrescriptionDetail from './pages/new/NewPrescriptionDetail';
+import AppLayout from './layout/Layout';
 
 function App() {
+
   const { darkMode } = useContext(DarkModeContext);
+
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
+
       <BrowserRouter>
         <Routes>
           <Route path="/">
             <Route index element={<Login />} />
             <Route path="home" element={<Home />} />
+            <Route path="applayout" element={<AppLayout />} />
 
             <Route path="users">
               <Route index element={<List colum={userColumns} title="users" titleApi="user" />} />
-              <Route path=":userID" element={<Single inputs={userInputs} title="user" />} />
-              <Route path="new" element={<New inputs={userInputs} title="user" />} />
+              <Route path=":userID" element={<Single inputs={userInputs} title="user" img="true" />} />
+              <Route path="new" element={<New inputs={userInputs} title="user" img="true" />} />
             </Route>
             <Route path="doctors">
               <Route index element={<List colum={doctorColumns} title="doctors" titleApi="doctor" />} />
-              <Route path=":doctorID" element={<SingleDoctor inputs={doctorInputs} title="doctor" />} />
-              <Route path="new" element={<New inputs={doctorInputs} title="doctor" />} />
+              <Route path=":doctorID" element={<SingleDoctor inputs={doctorInputs} title="doctor" img="true" />} />
+              <Route path="new" element={<New inputs={doctorInputs} title="doctor" img="true" />} />
             </Route>
             <Route path="bookings">
               <Route index element={<List colum={bookingColumns} title="bookings" titleApi="booking" />} />
@@ -75,6 +82,8 @@ function App() {
               <Route index element={<List colum={prescriptionDetailColumns} title="prescriptionDetails" titleApi="prescriptionDetail" />} />
               <Route path=":preDetailID" element={<SinglePrescriptionDetail inputs={prescriptionDetailInputs} title="prescriptionDetail" img="false" />} />
               <Route path="new" element={<New inputs={prescriptionDetailInputs} title="prescriptionDetail" img="false" />} />
+              <Route path="detail/:prescriptionID" element={<NewPrescriptionDetail inputs={prescriptionDetailInputs} />} />
+
             </Route>
             <Route path="clinics">
               <Route index element={<List colum={clinicColumns} title="clinics" titleApi="clinic" />} />

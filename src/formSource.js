@@ -5,7 +5,7 @@ export const userInputs = [
     key: "HoTen",
     type: "text",
     placeholder: "john_doe",
-    validation: { required: "This is required." }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -13,7 +13,6 @@ export const userInputs = [
     key: "MaUser",
     type: "number",
     placeholder: "220001",
-    validation: { required: true, pattern: /^[\+]?[(]?[0-9]{6}$/im, message: "vui long" }
   },
   {
     id: 3,
@@ -21,7 +20,17 @@ export const userInputs = [
     key: "CMND",
     type: "number",
     placeholder: "123456789",
-    validation: { required: true, minLength: 9, maxLength: 12 }
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 9,
+        message: "CMND có tối thiểu 9 ký tự"
+      },
+      pattern: {
+        value: /^[0-9]{9}/,
+        message: "CMND chỉ chứa số"
+      }
+    }
   },
   {
     id: 4,
@@ -29,7 +38,13 @@ export const userInputs = [
     key: "username",
     type: "text",
     placeholder: "johndone001",
-    validation: { required: true, minLength: 6, maxLength: 20 }
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 6,
+        message: "Tối thiểu 6 ký tự"
+      }
+    }
   },
   {
     id: 5,
@@ -37,7 +52,9 @@ export const userInputs = [
     key: "MaChucVu",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không để trống.",
+    }
   },
   {
     id: 6,
@@ -45,8 +62,9 @@ export const userInputs = [
     key: "GioiTinh",
     type: "radio",
     data: [{ key: 1, value: "Male" }, { key: 0, value: "Female" }],
-    validation: { required: true }
-
+    validation: {
+      required: "Không để trống.",
+    }
   },
   {
     id: 7,
@@ -55,24 +73,39 @@ export const userInputs = [
     type: "mail",
     placeholder: "john_doe@gmail.com",
     validation: {
-      required: true,
-      pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      required: "Không để trống.",
+      pattern: {
+        value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: "Nhập đúng định dạng long0432@gmail.com"
+      }
     }
   },
   {
     id: 8,
     label: "Số điện thoại",
     key: "SDT",
-    type: "number",
-    placeholder: "(+84) 234 567 89",
-    validation: { required: true, pattern: /^[\+]?[(]?[1-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3}$/im }
+    type: "text",
+    placeholder: "0123 456 789",
+    validation: {
+      required: "Không để trống.",
+      pattern: {
+        value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/im,
+        message: "Số điện thoại gồm 10 số"
+      }
+    }
   },
   {
     id: 9,
     label: "Mật khẩu",
     key: "password",
     type: "password",
-    validation: { required: true, minLength: 6 }
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 6,
+        message: "Tối thiểu 6 ký tự"
+      }
+    }
   },
   {
     id: 10,
@@ -80,7 +113,9 @@ export const userInputs = [
     key: "DiaChi",
     type: "text",
     placeholder: "Elton St. 216 NewYork",
-    validation: { required: true }
+    validation: {
+      required: "Không để trống.",
+    }
   },
   {
     id: 11,
@@ -88,7 +123,9 @@ export const userInputs = [
     key: "NgaySinh",
     type: "date",
     placeholder: "",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 12,
@@ -104,7 +141,7 @@ export const doctorInputs = [
     key: "MaBS",
     type: "number",
     placeholder: "1001",
-    validation: { required: true, pattern: /^[\+]?[(]?[1-9]{4}$/im }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -112,7 +149,9 @@ export const doctorInputs = [
     key: "MaKhoa",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 3,
@@ -120,7 +159,7 @@ export const doctorInputs = [
     key: "HoTen",
     type: "text",
     placeholder: "john_doe",
-    validation: { required: true, }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 4,
@@ -128,15 +167,24 @@ export const doctorInputs = [
     key: "CMND",
     type: "number",
     placeholder: "123456789",
-    validation: { required: true, pattern: /^[\+]?[(]?[1-9]{9}$/im }
-
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 9,
+        message: "CMND có tối thiểu 9 ký tự"
+      },
+      pattern: {
+        value: /^[0-9]{9}/,
+        message: "CMND chỉ chứa số"
+      }
+    }
   },
   {
     id: 5,
     label: "Ngày sinh",
     key: "NgaySinh",
     type: "date",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 6,
@@ -144,7 +192,13 @@ export const doctorInputs = [
     key: "DiaChi",
     type: "text",
     placeholder: "Elton St. 216 NewYork",
-    validation: { required: true, minLength: 5 }
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 6,
+        message: "Tối thiểu 6 ký tự"
+      }
+    }
   },
   {
     id: 7,
@@ -152,7 +206,9 @@ export const doctorInputs = [
     key: "GioiTinh",
     type: "radio",
     data: [{ key: 1, value: "Male" }, { key: 0, value: "Female" }],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 8,
@@ -160,7 +216,13 @@ export const doctorInputs = [
     key: "SDT",
     type: "text",
     placeholder: "(+84) 234 567 789",
-    validation: { required: true, pattern: /^[\+]?[(]?[1-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3}$/im }
+    validation: {
+      required: "Không để trống.",
+      pattern: {
+        value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/im,
+        message: "Số điện thoại gồm 10 số"
+      }
+    }
   },
   {
     id: 9,
@@ -168,7 +230,9 @@ export const doctorInputs = [
     key: "ChuyenNganh",
     type: "text",
     placeholder: "Tai mũi họng",
-    validation: { required: true }
+    validation: {
+      required: "Không để trống.",
+    }
   },
   {
     id: 10,
@@ -176,14 +240,26 @@ export const doctorInputs = [
     key: "username",
     type: "text",
     placeholder: "johndone001",
-    validation: { required: true, minLength: 6 }
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 6,
+        message: "Tối thiểu 6 ký tự"
+      }
+    }
   },
   {
     id: 11,
     label: "Mật khẩu",
     key: "password",
     type: "password",
-    validation: { required: true, minLength: 6 }
+    validation: {
+      required: "Không để trống.",
+      minLength: {
+        value: 6,
+        message: "Tối thiểu 6 ký tự"
+      }
+    }
   },
   {
     id: 12,
@@ -192,8 +268,11 @@ export const doctorInputs = [
     type: "email",
     placeholder: "john_doe@gmail.com",
     validation: {
-      required: true,
-      pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      required: "Không để trống.",
+      pattern: {
+        value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: "Nhập đúng định dạng long0432@gmail.com"
+      }
     }
   },
 ];
@@ -202,9 +281,9 @@ export const departmentInputs = [
     id: 1,
     label: "Ma Khoa",
     key: "MaKhoa",
-    type: "number",
+    type: "text",
     placeholder: "101",
-    validation: { required: true, maxLength: 6 }
+    validation: { required: "Không được để trống", maxLength: 6 }
   },
   {
     id: 2,
@@ -212,7 +291,9 @@ export const departmentInputs = [
     key: "TenKhoa",
     type: "text",
     placeholder: "Khoa ...",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 3,
@@ -220,7 +301,9 @@ export const departmentInputs = [
     key: "MoTa",
     type: "text",
     placeholder: "...",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
 ];
 export const scheduleInputs = [
@@ -230,7 +313,9 @@ export const scheduleInputs = [
     key: "MaBS",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 2,
@@ -238,21 +323,28 @@ export const scheduleInputs = [
     key: "MaPhong",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
+    id: 3,
     label: "Mã Ca Khám",
     key: "CaKham",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 4,
     label: "Ngày khám",
     key: "NgayKham",
     type: "date",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
 ];
 export const roleInputs = [
@@ -262,7 +354,7 @@ export const roleInputs = [
     key: "MaChucVu",
     type: "number",
     placeholder: "1",
-    validation: { required: true, minLength: 1 }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -270,7 +362,7 @@ export const roleInputs = [
     key: "TenChucVu",
     type: "text",
     placeholder: "Chức vụ ...",
-    validation: { required: true, minLength: 5 }
+    validation: { required: "Không được để trống" }
   },
 ];
 export const bookingInputs = [
@@ -280,7 +372,7 @@ export const bookingInputs = [
     key: "MaDL",
     type: "number",
     placeholder: "3001",
-    validation: { required: true, minLength: 3 }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -288,7 +380,7 @@ export const bookingInputs = [
     key: "MaUser",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 3,
@@ -296,21 +388,21 @@ export const bookingInputs = [
     key: "MaBS",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 4,
     label: "Thời gian",
     key: "ThoiGian",
     type: "time",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 5,
     label: "NGày dặt lịch",
     key: "NgayDL",
     type: "date",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 6,
@@ -318,7 +410,7 @@ export const bookingInputs = [
     key: "TinhTrangBN",
     type: "text",
     placeholder: "...",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 7,
@@ -326,7 +418,7 @@ export const bookingInputs = [
     key: "TrangThai",
     type: "select",
     data: [{ key: 0, value: "new" }, { key: 1, value: "confirmed" }, { key: 2, value: "failure" }],
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
 ];
 export const medicalExaminationInputs = [
@@ -336,7 +428,7 @@ export const medicalExaminationInputs = [
     key: "MaPK",
     type: "number",
     placeholder: "1",
-    validation: { required: true, minLength: 1 }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -344,7 +436,9 @@ export const medicalExaminationInputs = [
     key: "MaDL",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 3,
@@ -352,14 +446,16 @@ export const medicalExaminationInputs = [
     key: "CaKham",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 4,
     label: "Ngày khám",
     key: "NgayKham",
     type: "date",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 5,
@@ -375,7 +471,7 @@ export const medicalTestInputs = [
     key: "MaPK",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -383,7 +479,7 @@ export const medicalTestInputs = [
     key: "MaBS",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 3,
@@ -391,21 +487,21 @@ export const medicalTestInputs = [
     key: "TenPXN",
     type: "text",
     placeholder: "Phiếu xét nghiệm máu",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 4,
     label: "Kết quả",
     key: "KetQua",
     placeholder: "Nhóm máu...",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 5,
     label: "Ngày xét nghiệm",
     key: "NgayXN",
     type: "date",
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 6,
@@ -413,7 +509,7 @@ export const medicalTestInputs = [
     key: "TrangThai",
     type: "select",
     data: [{ key: 0, value: "new" }, { key: 1, value: "confirmed" }, { key: 2, value: "failure" }],
-    validation: { required: true }
+    validation: { required: "Không được để trống" }
   },
 ];
 export const medicineInputs = [
@@ -423,7 +519,7 @@ export const medicineInputs = [
     key: "MaThuoc",
     type: "number",
     placeholder: "1",
-    validation: { required: true, maxLength: 6 }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 2,
@@ -431,7 +527,7 @@ export const medicineInputs = [
     key: "TenThuoc",
     type: "text",
     placeholder: "Thuốc abc",
-    validation: { required: true, maxLength: 255 }
+    validation: { required: "Không được để trống" }
   },
   {
     id: 3,
@@ -439,7 +535,13 @@ export const medicineInputs = [
     key: "ThanhPhan",
     type: "text",
     placeholder: "Gồm ...",
-    validation: { required: true, maxLength: 255 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 4,
@@ -447,7 +549,13 @@ export const medicineInputs = [
     key: "CongDung",
     type: "text",
     placeholder: "Dùng để chữa ...",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 5,
@@ -455,30 +563,48 @@ export const medicineInputs = [
     key: "GiaBan",
     type: "number",
     placeholder: "100 000đ",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 6,
     label: "NGày SX",
     key: "NgaySX",
     type: "date",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 7,
-    label: "Han Su Dung",
+    label: "Hạn sử dụng",
     key: "HanSuDung",
     type: "text",
     placeholder: "12 tháng",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 8,
-    label: "Don Vi",
+    label: "Đơn vị",
     key: "DonVi",
     type: "select",
     data: [{ key: "Hộp", value: "Hộp" }, { key: "Lọ", value: "Lọ" }, { key: "Cái", value: "Cái" }, { key: "Bịch", value: "Bịch" }, { key: "Kg", value: "Kg" }, { key: "Cuộn", value: "Cuộn" }],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
+  },
+  {
+    id: 9,
+    label: "Số lượng trong mỗi đơn vị",
+    key: "SoLuong",
+    type: "number",
+    placeholder: "24 (viên)",
+    validation: {
+      required: "Không được để trống",
+    }
   },
 ];
 export const clinicInputs = [
@@ -486,9 +612,15 @@ export const clinicInputs = [
     id: 1,
     label: "Mã phòng khám",
     key: "MaPhong",
-    type: "number",
+    type: "text",
     placeholder: "101",
-    validation: { required: true, minLength: 3, maxLength: 5 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 4,
+        message: "Tối đa 4 ký tự"
+      },
+    }
   },
   {
     id: 2,
@@ -496,7 +628,9 @@ export const clinicInputs = [
     key: "MaKhoa",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 3,
@@ -504,7 +638,13 @@ export const clinicInputs = [
     key: "TenPhongKham",
     type: "text",
     placeholder: "Phòng khám 101",
-    validation: { required: true, maxLength: 255 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 50,
+        message: "Tối đa 50 ký tự"
+      }
+    }
   },
   {
     id: 4,
@@ -512,7 +652,13 @@ export const clinicInputs = [
     key: "ChucNang",
     type: "text",
     placeholder: "Chức năng ",
-    validation: { required: true, maxLength: 255 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
 ];
 export const prescriptionInputs = [
@@ -522,7 +668,13 @@ export const prescriptionInputs = [
     key: "MaDT",
     type: "number",
     placeholder: "1001",
-    validation: { required: true, minLength: 4, maxLength: 5 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 2,
@@ -530,7 +682,9 @@ export const prescriptionInputs = [
     key: "MaBS",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 3,
@@ -538,7 +692,9 @@ export const prescriptionInputs = [
     key: "MaUser",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 4,
@@ -546,7 +702,13 @@ export const prescriptionInputs = [
     key: "TinhTrang",
     type: "text",
     placeholder: "Tình trạng bệnh của bệnh nhân",
-    validation: { required: true, maxLength: 255 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 5,
@@ -554,14 +716,22 @@ export const prescriptionInputs = [
     key: "LoiDanBS",
     type: "text",
     placeholder: "Dùng sau khi ăn....",
-    validation: { required: true, maxLength: 255 }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 6,
     label: "Ngày cấp đơn thuốc",
     key: "NgayCap",
     type: "date",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 7,
@@ -569,14 +739,18 @@ export const prescriptionInputs = [
     key: "TrangThai",
     type: "select",
     data: [{ key: 0, value: "new" }, { key: 1, value: "confirmed" }, { key: 2, value: "failure" }],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 8,
     label: "Tổng tiền thuốc",
     key: "TongTienThuoc",
     type: "number",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
 ];
 export const prescriptionDetailInputs = [
@@ -586,7 +760,9 @@ export const prescriptionDetailInputs = [
     key: "MaDT",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 2,
@@ -594,7 +770,9 @@ export const prescriptionDetailInputs = [
     key: "MaThuoc",
     type: "select",
     data: [],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 3,
@@ -602,14 +780,18 @@ export const prescriptionDetailInputs = [
     key: "LieuLuong",
     type: "select",
     data: [{ key: 1, value: "1 Lần" }, { key: 2, value: "2 Lần" }, { key: 3, value: "3 Lần" }],
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 4,
     label: "Số lượng mỗi lần uống",
     key: "SoLuong",
     type: "number",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 5,
@@ -617,7 +799,9 @@ export const prescriptionDetailInputs = [
     key: "SoNgayUong",
     type: "number",
     placeholder: "15",
-    validation: { required: true }
+    validation: {
+      required: "Không được để trống",
+    }
   },
   {
     id: 6,

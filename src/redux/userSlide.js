@@ -9,14 +9,7 @@ export const getUser = createAsyncThunk(
     return result;
   }
 )
-export const deleteUser = createAsyncThunk(
-  'user/getUser',
-  async () => {
-    const data = await axios.get('http://localhost:8001/api/user?id=ALL');
-    const result = data.data.users;
-    return result;
-  }
-)
+
 const userSlide = createSlice({
   name: "user",
   initialState: {

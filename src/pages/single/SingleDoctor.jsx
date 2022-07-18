@@ -9,19 +9,22 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/userSlide';
 import { getDepartment } from '../../redux/departmentSlide';
-import { getRole } from '../../redux/roleSlide';
 import { getDoctor } from '../../redux/doctorSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleDoctor = ({ inputs, title, img }) => {
-  const { userID, doctorID } = useParams();
+  const { doctorID } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [file, setFile] = useState("");
   const [goitinh, setGioiTinh] = useState();
+  const [update, setUpdate] = useState(false);
+  const [inputData, setInputData] = useState([]);
+  const [data, setData] = useState([]);
+
 
   const assignDepartment = async () => {
     const departmentResult = await dispatch(getDepartment());
@@ -31,6 +34,7 @@ const SingleDoctor = ({ inputs, title, img }) => {
       if (input.key === "MaKhoa" && Object.keys(dataDepartment).length !== 0) {
         input.data = dataDepartment;
       };
+      setInputData(inputs)
     })
   }
 
@@ -42,22 +46,38 @@ const SingleDoctor = ({ inputs, title, img }) => {
       if (!currentDoctor) {
         return navigate(`/${title}s`)
       } else {
-        setGioiTinh(currentDoctor.GioiTinh)
+        setGioiTinh(currentDoctor.GioiTinh);
+        setData(currentDoctor)
       }
     }
   }
 
   const onSubmit = async (data) => {
     try {
+      setUpdate(true);
+      let urlHinhAnh = '';
+      if (file.length !== 0) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "rl8qs3p5");
+        await axios.post("https://api.cloudinary.com/v1_1/nguyen-duc-long/image/upload", formData).then((response) => {
+          urlHinhAnh = response.data.secure_url;
+        });
+      }
+      if (urlHinhAnh.length !== 0) {
+        data.HinhAnh = urlHinhAnh;
+      }
       const response = await axios.put(`http://localhost:8001/api/${title}/update-${title}`, data);
       if (response.data.errCode === '1') {
+        setUpdate(false);
         toast.error(response.data.errMessage)
       } else {
         toast.error(response.data.errMessage)
         return navigate(`/${title}s`)
       }
     } catch (error) {
-      toast.error("Update fail")
+      setUpdate(false);
+      toast.error("Không thể cập nhật thông tin bác sĩ")
     }
   };
 
@@ -72,15 +92,24 @@ const SingleDoctor = ({ inputs, title, img }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
         <div className="bottom">
-          {!img
+          {!file
             ? <div className="left">
+              <img
+                src={
+                  currentDoctor?.HinhAnh
+                    ? currentDoctor?.HinhAnh
+                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt="avatar"
+              />
+            </div>
+            : <div className="left">
               <img
                 src={
                   file
@@ -89,26 +118,22 @@ const SingleDoctor = ({ inputs, title, img }) => {
                 }
                 alt="avatar"
               />
-            </div>
-            : ""}
+            </div>}
           <div className="right">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {!img
-                ? <div className="formInput">
-                  <label htmlFor="file">
-                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    style={{ display: "none" }}
-                  />
-                </div>
-                : ""
-              }
+              <div className="formInput">
+                <label htmlFor="file">
+                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ display: "none" }}
+                />
+              </div>
               {
-                inputs.map((input) => {
+                inputData.map((input) => {
                   if (input.type === "select") {
                     if (input.key === "MaKhoa") {
                       return <div className="formInput" key={input.id}>
@@ -176,7 +201,7 @@ const SingleDoctor = ({ inputs, title, img }) => {
                     </div>
                   }
                 })}
-              <button type="submit" className="btn-update">UPDATE</button>
+              <button type="submit" className={update ? "btn-update--loading" : "btn-update"}>UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -191,7 +216,7 @@ const SingleDoctor = ({ inputs, title, img }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

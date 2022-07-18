@@ -5,10 +5,8 @@ import Widget from '../../components/widget/Widget';
 import Chart from '../../components/chart/Chart';
 import Featured from '../../components/featured/Featured'
 import Table from '../../components/table/Table';
-import { useEffect } from 'react';
 
 const Home = () => {
-
 
 
   return (
@@ -17,18 +15,10 @@ const Home = () => {
       <div className='homeContainer'>
         <Navbar />
         <div className='widgets'>
-          <Widget type="user" />
-          <Widget type="order" />
-          <Widget type="earning" />
-          <Widget type="balance" />
-        </div>
-        <div className='charts'>
-          <Featured />
-          <Chart />
-        </div>
-        <div className='listContainer'>
-          <div className='listTitle'>Latest Transactions</div>
-          <Table />
+          <Widget type="user" amount={1000} />
+          <Widget type="order" amount={1000} />
+          <Widget type="earning" amount={1000} />
+          <Widget type="balance" amount={1000} />
         </div>
       </div>
 

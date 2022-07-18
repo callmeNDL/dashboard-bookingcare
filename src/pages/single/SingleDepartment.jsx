@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartment } from '../../redux/departmentSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleDepartment = ({ inputs, title }) => {
@@ -58,9 +59,7 @@ const SingleDepartment = ({ inputs, title }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -90,7 +89,8 @@ const SingleDepartment = ({ inputs, title }) => {
                     </div>
                   }
                 })}
-              <button type="submit">UPDATE</button>
+              <button type="submit" className="btn-update">UPDATE</button>
+
             </form>
             <ToastContainer
               position="top-right"
@@ -105,7 +105,7 @@ const SingleDepartment = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

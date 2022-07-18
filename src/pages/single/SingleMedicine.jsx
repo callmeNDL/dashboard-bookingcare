@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMedicine } from '../../redux/medicineSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleMedicine = ({ inputs, title }) => {
@@ -58,9 +59,7 @@ const SingleMedicine = ({ inputs, title }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -103,7 +102,7 @@ const SingleMedicine = ({ inputs, title }) => {
                   }
                 })
               }
-              <button type="submit">UPDATE</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -118,7 +117,7 @@ const SingleMedicine = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

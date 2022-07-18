@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTimetable } from '../../redux/timetableSlide';
 import { getBooking } from '../../redux/bookingSlide';
 import { getMedicalExamination } from "../../redux/medicalExamination";
+import AppLayout from "../../layout/Layout";
 
 const SingleMedicalExamination = ({ inputs, title }) => {
   const { medicalExaminationID } = useParams();
@@ -19,6 +20,7 @@ const SingleMedicalExamination = ({ inputs, title }) => {
 
   const [id, setID] = useState('');
   const [data, setData] = useState('');
+  const [inputData, setInputData] = useState();
 
   const assignDepartment = async () => {
     const timetableResult = await dispatch(getTimetable());
@@ -34,7 +36,7 @@ const SingleMedicalExamination = ({ inputs, title }) => {
       if (input.key === "MaDL" && Object.keys(dataBooking).length !== 0) {
         input.data = dataBooking;
       };
-
+      setInputData(inputs)
     })
   }
 
@@ -71,17 +73,17 @@ const SingleMedicalExamination = ({ inputs, title }) => {
     assignDepartment();
   }, [])
 
-  console.log(inputs);
   const dataMedicalExamination = useSelector((state) => state.medicalExamination.data);
   let currentMedicalExamination = dataMedicalExamination.find((item) => item.id == `${medicalExaminationID}`);
   // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentMedicalExamination });
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentMedicalExamination });
 
+  console.log("Render");
+
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
+
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -132,7 +134,8 @@ const SingleMedicalExamination = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
+
             </form>
             <ToastContainer
               position="top-right"
@@ -147,7 +150,7 @@ const SingleMedicalExamination = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

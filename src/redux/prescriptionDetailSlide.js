@@ -16,15 +16,26 @@ const prescriptionDetailSlide = createSlice({
     data: {},
     prescriptionDetail: {},
     loading: false,
-    error: ''
+    error: false
   },
   reducers: {
     addPrescription: (state, action) => {
       state.data.push(action.payload)
     },
-    getCurrentPrescription: (state, action) => {
+    //get prescriptionDetail with MaDT
+    getWithMaDTStart: (state) => {
+      state.loading = true;
+    },
+    getWithMaDTSuccess: (state, action) => {
+      state.loading = false;
       state.prescriptionDetail = action.payload;
-    }
+      state.error = false;
+    },
+    getWithMaDTFailed: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+
   },
   extraReducers: {
     //getPrescriptionDetail
@@ -42,5 +53,5 @@ const prescriptionDetailSlide = createSlice({
   }
 })
 const { reducer: prescriptionDetailReducer } = prescriptionDetailSlide;
-export const { addPrescription, getCurrentPrescription } = prescriptionDetailSlide.actions;
+export const { addPrescription, getWithMaDTStart, getWithMaDTSuccess, getWithMaDTFailed } = prescriptionDetailSlide.actions;
 export default prescriptionDetailReducer;

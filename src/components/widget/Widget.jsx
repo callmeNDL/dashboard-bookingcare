@@ -4,12 +4,13 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { Link } from "react-router-dom";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, amount }) => {
   let data;
 
   //temporary
-  const amount = 100;
+  // const amount = 1001;
   const diff = 20;
 
   switch (type) {
@@ -85,12 +86,11 @@ const Widget = ({ type }) => {
         <span className="counter">
           {data.isMoney && "$"} {amount}
         </span>
-        <span className="link">{data.link}</span>
+        <Link className="link" to='/users'><span className="link">{data.link}</span></Link>
       </div>
       <div className="right">
         <div className="percentage positive">
           <KeyboardArrowUpIcon />
-          {diff} %
         </div>
         {data.icon}
       </div>

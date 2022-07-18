@@ -1,6 +1,10 @@
 .datatable {
   height: 600px;
   padding: 20px;
+
+  &--with100 {
+    width: 100%;
+  }
   
   .datatableTitle{
     width: 100%;

@@ -1,17 +1,16 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/userSlide';
 import { getPrescription } from '../../redux/prescriptionSlide';
 import { getDoctor } from '../../redux/doctorSlide';
-
+import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate, useParams, Link } from "react-router-dom";
+import AppLayout from "../../layout/Layout";
 const SinglePrescription = ({ inputs, title }) => {
   const { prescriptionID } = useParams();
   const navigate = useNavigate();
@@ -19,6 +18,7 @@ const SinglePrescription = ({ inputs, title }) => {
 
   const [id, setID] = useState('');
   const [data, setData] = useState('');
+  const [inputData, setInputData] = useState();
 
   const assignDepartment = async () => {
     const userResult = await dispatch(getUser());
@@ -34,6 +34,7 @@ const SinglePrescription = ({ inputs, title }) => {
       if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
         input.data = dataDoctor;
       };
+      setInputData(inputs)
     })
   }
 
@@ -70,6 +71,7 @@ const SinglePrescription = ({ inputs, title }) => {
     assignDepartment();
   }, [])
 
+
   const dataPrescription = useSelector((state) => state.prescription.data);
   let currentPrescription = dataPrescription.find((item) => item.id == `${prescriptionID}`);
   // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentPrescription });
@@ -77,9 +79,7 @@ const SinglePrescription = ({ inputs, title }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -141,8 +141,9 @@ const SinglePrescription = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
+
             <ToastContainer
               position="top-right"
               autoClose={3000}
@@ -154,9 +155,15 @@ const SinglePrescription = ({ inputs, title }) => {
               draggable
               pauseOnHover
             />
+            <div className="btn-box">
+              <Link to={`/prescriptionDetails/detail/${data?.MaDT}`} className="link">
+                <button className="btn"> <InfoIcon className=" icon" /> Chi tiết đơn thuốc</button>
+              </Link>
+            </div>
           </div>
+
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

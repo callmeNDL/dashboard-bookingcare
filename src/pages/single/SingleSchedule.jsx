@@ -12,6 +12,7 @@ import { getTimetable } from '../../redux/timetableSlide';
 import { getClinic } from '../../redux/clinicSlide';
 import { getDoctor } from '../../redux/doctorSlide';
 import { getSchedule } from '../../redux/scheduleSlide';
+import AppLayout from "../../layout/Layout";
 
 const SingleSchedule = ({ inputs, title }) => {
   const { scheduleID } = useParams();
@@ -20,27 +21,30 @@ const SingleSchedule = ({ inputs, title }) => {
 
   const [id, setID] = useState('');
   const [data, setData] = useState('');
+  const [inputData, setInputData] = useState();
 
-  const assignDepartment = async () => {
-    const timetableResult = await dispatch(getTimetable());
-    const dataTimetable = unwrapResult(timetableResult);
+
+  const assignData = async () => {
+    const doctorResult = await dispatch(getDoctor());
+    const dataDoctor = unwrapResult(doctorResult);
 
     const clinicResult = await dispatch(getClinic());
     const dataClinic = unwrapResult(clinicResult);
 
-    const doctorResult = await dispatch(getDoctor());
-    const dataDoctor = unwrapResult(doctorResult);
+    const timetableResult = await dispatch(getTimetable());
+    const dataTimetable = unwrapResult(timetableResult);
 
     inputs.forEach(input => {
+      if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+        input.data = dataDoctor;
+      };
       if (input.key === "CaKham" && Object.keys(dataTimetable).length !== 0) {
         input.data = dataTimetable;
       };
       if (input.key === "MaPhong" && Object.keys(dataClinic).length !== 0) {
         input.data = dataClinic;
       };
-      if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
-        input.data = dataDoctor;
-      };
+      setInputData(inputs)
     })
   }
 
@@ -73,21 +77,17 @@ const SingleSchedule = ({ inputs, title }) => {
   };
 
   useEffect(() => {
-    getData()
-    assignDepartment();
+    getData();
+    assignData();
   }, [])
 
   const dataSchedule = useSelector((state) => state.schedule.data);
   let currentSchedule = dataSchedule.find((item) => item.id == `${scheduleID}`);
-  console.log(data);
-  // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentSchedule });
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentSchedule });
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -97,7 +97,6 @@ const SingleSchedule = ({ inputs, title }) => {
               {
                 inputs.map((input) => {
                   if (input.type === "select") {
-
                     if (input.key === "MaPhong") {
                       return <div className="formInput" key={input.id}>
                         <label>{input.label}</label>
@@ -150,7 +149,7 @@ const SingleSchedule = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -165,7 +164,7 @@ const SingleSchedule = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

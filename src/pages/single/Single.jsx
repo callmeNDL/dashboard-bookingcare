@@ -1,6 +1,4 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,27 +9,29 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/userSlide';
 import { getRole } from '../../redux/roleSlide';
+import AppLayout from "../../layout/Layout";
+import { updateUser } from "../../apiServices/userServices";
 
 
 const Single = ({ inputs, title, img }) => {
-  const { userID, doctorID } = useParams();
+  const { userID } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [file, setFile] = useState("");
   const [goitinh, setGioiTinh] = useState(false);
-  const [id, setID] = useState('');
-  const [data, setData] = useState('');
+  const [update, setUpdate] = useState(false);
+  const [inputData, setInputData] = useState([]);
 
   const assignDepartment = async () => {
     const roleResult = await dispatch(getRole());
     const dataRole = unwrapResult(roleResult);
 
     inputs.forEach(input => {
-
       if (input.key === "MaChucVu" && Object.keys(dataRole).length !== 0) {
         input.data = dataRole;
       };
+      setInputData(inputs)
     })
   }
 
@@ -43,8 +43,6 @@ const Single = ({ inputs, title, img }) => {
       if (!currentUser) {
         return navigate(`/${title}s`)
       } else {
-        setID(userID);
-        setData(currentUser);
         setGioiTinh(currentUser.GioiTinh)
       }
     }
@@ -52,6 +50,7 @@ const Single = ({ inputs, title, img }) => {
 
   const onSubmit = async (data) => {
     try {
+      setUpdate(true);
       let urlHinhAnh = '';
       if (file.length !== 0) {
         const formData = new FormData();
@@ -64,34 +63,28 @@ const Single = ({ inputs, title, img }) => {
       if (urlHinhAnh.length !== 0) {
         data.HinhAnh = urlHinhAnh;
       }
-      const response = await axios.put(`http://localhost:8001/api/${title}/update-${title}`, data);
-      if (response.data.errCode === '1') {
-        toast.error(response.data.errMessage)
-      } else {
-        toast.error(response.data.errMessage)
-        return navigate(`/${title}s`)
-      }
+      await updateUser(data, navigate);
+
+      setUpdate(false);
     } catch (error) {
+      setUpdate(false);
       toast.error(error.data)
     }
   };
 
   useEffect(() => {
-    getData()
     assignDepartment();
+    getData();
   }, [])
 
-  const dataUser = useSelector((state) => state.user.data);
-  let currentUser = dataUser.find((item) => item.id == `${userID}`);
-  console.log(currentUser);
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentUser });
 
-  console.log(data);
+  const dataUser = useSelector((state) => state.user.data);
+  let currentUser = dataUser.find((item) => item.id == `${userID}`)
+  const { register, handleSubmit, errors } = useForm({ defaultValues: currentUser });
+
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -100,8 +93,8 @@ const Single = ({ inputs, title, img }) => {
             ? <div className="left">
               <img
                 src={
-                  currentUser.HinhAnh
-                    ? currentUser.HinhAnh
+                  currentUser?.HinhAnh
+                    ? currentUser?.HinhAnh
                     : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                 }
                 alt="avatar"
@@ -131,63 +124,14 @@ const Single = ({ inputs, title, img }) => {
                 />
               </div>
               {
-                inputs.map((input) => {
+                inputData.map((input) => {
                   if (input.type === "select") {
-                    if (input.key === "MaKhoa") {
-                      return <div className="formInput" key={input.id}>
-                        <label>{input.label}</label>
-                        <select name={input.label} {...register(`${input.key}`)}>
-                          {input.data.map((option) => {
-                            return <option value={option.MaKhoa} key={option.MaKhoa}>{option.TenKhoa}</option>
-                          })}
-                        </select>
-                      </div>
-                    }
                     if (input.key === "MaChucVu") {
                       return <div className="formInput" key={input.id}>
                         <label>{input.label}</label>
                         <select name={input.label} {...register(`${input.key}`)}>
                           {input.data.map((option) => {
                             return <option value={option.MaChucVu} key={option.MaChucVu}>{option.TenChucVu}</option>
-                          })}
-                        </select>
-                      </div>
-                    }
-                    if (input.key === "MaUser") {
-                      return <div className="formInput" key={input.id}>
-                        <label>{input.label}</label>
-                        <select name={input.label} {...register(`${input.key}`)}>
-                          {input.data.map((option) => {
-                            return <option value={option.MaUser} key={option.MaUser}>{option.HoTen}</option>
-                          })}
-                        </select>
-                      </div>
-                    }
-                    if (input.key === "MaBS") {
-                      return <div className="formInput" key={input.id}>
-                        <label>{input.label}</label>
-                        <select name={input.label} {...register(`${input.key}`)}>
-                          {input.data.map((option) => {
-                            return <option value={option.MaBS} key={option.MaBS}>{option.HoTen}</option>
-                          })}
-                        </select>
-                      </div>
-                    }
-                    if (input.key === "TrangThai") {
-                      return <div className="formInput" key={input.id}>
-                        <label>{input.label}</label>
-                        <select name={input.label} {...register(`${input.key}`)}>
-                          {input.data.map((option) => {
-                            return <option value={option.value} key={option.key}>{option.value}</option>
-                          })}
-                        </select>
-                      </div>
-                    } else {
-                      return <div className="formInput" key={input.id}>
-                        <label>{input.label}</label>
-                        <select name={input.label} {...register(`${input.key}`)}>
-                          {input.data.map((option) => {
-                            return <option value={option.key} key={option.key}>{option.value}</option>
                           })}
                         </select>
                       </div>
@@ -206,17 +150,6 @@ const Single = ({ inputs, title, img }) => {
                       </div>
                     </div>
                   }
-                  if (input.type === "email") {
-                    return <div className="formInput" key={input.id}>
-                      <label>{input.label}</label>
-                      <input
-                        type={input.type}
-                        placeholder={input.placeholder}
-                        {...register(`${input.key}`,
-                          { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, })}
-                      />
-                    </div>
-                  }
                   if (input.type === "password") {
                     return <div className="formInput" key={input.id}>
                       <label>{input.label}</label>
@@ -224,11 +157,11 @@ const Single = ({ inputs, title, img }) => {
                         type={input.type}
                         placeholder={input.placeholder}
                         disabled
-                        value="aaaaaa"
+                        value="hashPassword"
                       />
                     </div>
                   } else {
-                    return <div className={`formInput ${input.key}`} key={input.id}>
+                    return <div className={input.key === "HinhAnh" ? `formInput--disable }` : `formInput ${input.key}`} key={input.id}>
                       <label>{input.label}</label>
                       <input
                         type={input.type}
@@ -239,7 +172,7 @@ const Single = ({ inputs, title, img }) => {
                   }
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className={update ? "btn-update--loading" : "btn-update"}>UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -254,7 +187,7 @@ const Single = ({ inputs, title, img }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

@@ -3,7 +3,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
+
 const Datatable = (props) => {
+
   const handleDele = async (id) => {
     try {
       const response = await axios.delete(`http://localhost:8001/api/${props.titleApi}/delete-${props.titleApi}`, {
@@ -13,11 +15,14 @@ const Datatable = (props) => {
       });
       if (response.data.errCode == '1') {
         toast.error(response.data.errMessage)
-      } else {
+      } else if (response.data.errCode == '0') {
         toast.success(response.data.errMessage)
+        props.rerenderParentCallback();
+      } else {
+        toast.error("Không thể xoá")
       }
     } catch (error) {
-      toast.error(error.data)
+      toast.error("Không thể xoá")
     }
   }
 
@@ -30,9 +35,9 @@ const Datatable = (props) => {
         return (
           <div className='cellAction'>
             <Link to={`/${props.title}/${params.id}`} style={{ textDecoration: "none" }} >
-              <div className='viewButton' >View</div>
+              <div className='viewButton' >Xem</div>
             </Link>
-            <div className='deleteButton' onClick={() => { handleDele(params.id) }}>Delete</div>
+            <div className='deleteButton' onClick={() => { handleDele(params.id) }}>Xoá</div>
           </div>
         )
       }
@@ -42,9 +47,9 @@ const Datatable = (props) => {
   return (
     <div className='datatable'>
       <div className='datatableTitle'>
-        {`List ${props.title}`}
+        {`Danh sách ${props.title}`}
         <Link to={`/${props.title}/new`} style={{ textDecoration: "none" }} className="link">
-          {`Add New ${props.titleApi}`}
+          {`Thêm mới ${props.titleApi}`}
         </Link>
       </div>
       <DataGrid
@@ -57,7 +62,7 @@ const Datatable = (props) => {
       />
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop
         closeOnClick

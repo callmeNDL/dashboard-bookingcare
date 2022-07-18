@@ -1,6 +1,4 @@
 import './list.scss'
-import Navbar from '../../components/navbar/Navbar'
-import Sidebar from '../../components/sidebar/Sidebar'
 import Datatable from '../../components/datatable/Datatable'
 import { getUser } from '../../redux/userSlide';
 import { getDoctor } from '../../redux/doctorSlide';
@@ -16,13 +14,18 @@ import { getMedicine } from '../../redux/medicineSlide';
 import { getPrescriptionDetail } from '../../redux/prescriptionDetailSlide';
 
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-
+import AppLayout from '../../layout/Layout';
+import { getBookingWithBS } from "../../apiServices/bookingServices";
 
 const List = (props) => {
   const dispatch = useDispatch();
   const [data, setData] = useState({});
+  const [renderCallBack, setRenderCallBack] = useState(false);
+
+  const loginRole = useSelector((state) => state.auth.login.currentUser)
+
 
   const getData = async () => {
     if (props.title === "users") {
@@ -56,9 +59,16 @@ const List = (props) => {
       setData(dataResult)
     }
     if (props.title === "bookings") {
-      let actionResult = await dispatch(getBooking());
-      const dataResult = unwrapResult(actionResult);
-      setData(dataResult)
+      if (loginRole.MaBS && loginRole.MaBS.length !== 0) {
+        const bookingWithDoctor = await getBookingWithBS(loginRole.MaBS);
+        setData(bookingWithDoctor)
+      }
+      else {
+        let actionResult = await dispatch(getBooking());
+        const dataResult = unwrapResult(actionResult);
+        setData(dataResult)
+      }
+
     }
     if (props.title === "medicalExaminations") {
       let actionResult = await dispatch(getMedicalExamination());
@@ -87,18 +97,19 @@ const List = (props) => {
     }
   }
 
+  const rerenderParentCallback = () => {
+    setRenderCallBack(!renderCallBack)
+  }
+
   useEffect(() => {
     getData();
-  }, [props.title])
-  console.log("render", props.title);
-  return (
+  }, [props.title, renderCallBack])
 
-    <div className='list'>
-      <Sidebar />
-      <div className='listContainer'>
-        <Navbar />
-        <Datatable data={data} colum={props.colum} title={props.title} titleApi={props.titleApi} />
-      </div>
+  return (
+    <div className=''>
+      <AppLayout >
+        <Datatable data={data} colum={props.colum} title={props.title} titleApi={props.titleApi} rerenderParentCallback={rerenderParentCallback} />
+      </AppLayout>
     </div>
   )
 }

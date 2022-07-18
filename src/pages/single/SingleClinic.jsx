@@ -10,13 +10,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartment } from '../../redux/departmentSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleClinic = ({ inputs, title, img }) => {
   const { clinicID } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [inputData, setInputData] = useState();
 
   const assignDepartment = async () => {
     const departmentResult = await dispatch(getDepartment());
@@ -26,7 +27,7 @@ const SingleClinic = ({ inputs, title, img }) => {
       if (input.key === "MaKhoa" && Object.keys(dataDepartment).length !== 0) {
         input.data = dataDepartment;
       };
-
+      setInputData(inputs)
     })
   }
 
@@ -54,9 +55,8 @@ const SingleClinic = ({ inputs, title, img }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -100,7 +100,7 @@ const SingleClinic = ({ inputs, title, img }) => {
                     }
                   }
                 })}
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -115,7 +115,7 @@ const SingleClinic = ({ inputs, title, img }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

@@ -1,0 +1,27 @@
+.btn {
+  max-width: 200px;
+  padding: 10px;
+  border: none;
+  background-color: #6495ED	;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .icon {
+    margin-right: 5px;
+  }
+
+}
+
+.link {
+  text-decoration: none;
+
+  .btn {
+    font-weight: 500;
+    font-style: italic;
+  }
+}

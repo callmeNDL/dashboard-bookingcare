@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMedicalExamination } from '../../redux/medicalExamination';
 import { getMedicalTest } from '../../redux/medicalTest';
 import { getDoctor } from '../../redux/doctorSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleMedicalTest = ({ inputs, title }) => {
@@ -79,9 +80,7 @@ const SingleMedicalTest = ({ inputs, title }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -142,7 +141,7 @@ const SingleMedicalTest = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -157,7 +156,7 @@ const SingleMedicalTest = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

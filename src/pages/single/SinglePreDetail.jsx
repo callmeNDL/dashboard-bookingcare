@@ -1,6 +1,4 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMedicine } from '../../redux/medicineSlide';
 import { getPrescription } from '../../redux/prescriptionSlide';
 import { getPrescriptionDetail } from "../../redux/prescriptionDetailSlide";
+import AppLayout from "../../layout/Layout";
 
 const SinglePrescription = ({ inputs, title }) => {
   const { preDetailID } = useParams();
@@ -19,7 +18,7 @@ const SinglePrescription = ({ inputs, title }) => {
 
   const [id, setID] = useState('');
   const [data, setData] = useState('');
-
+  const [inputData, setInputData] = useState();
   const assignDepartment = async () => {
     const userResult = await dispatch(getPrescription());
     const dataUser = unwrapResult(userResult);
@@ -34,6 +33,7 @@ const SinglePrescription = ({ inputs, title }) => {
       if (input.key === "MaThuoc" && Object.keys(dataDoctor).length !== 0) {
         input.data = dataDoctor;
       };
+      setInputData(inputs)
     })
   }
 
@@ -79,9 +79,7 @@ const SinglePrescription = ({ inputs, title }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -143,7 +141,7 @@ const SinglePrescription = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit">Send</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -158,7 +156,7 @@ const SinglePrescription = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

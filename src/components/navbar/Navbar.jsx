@@ -28,11 +28,11 @@ const Navbar = () => {
             <DarkModeOutlinedIcon className='icon' onClick={() => dispatch({ type: "TOGGLE" })} />
           </div>
           <div className='item'>
-            {data ? `${data.user.HoTen}` : "admin"}
+            {data ? `${data.HoTen}` : "admin"}
           </div>
           <div className='item'>
             <img
-              src={data ? `${data.user.HinhAnh}` : "https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"}
+              src={data ? `${data.HinhAnh}` : "https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"}
               alt="img-avatar"
               className="avatar"
             />

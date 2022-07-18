@@ -1,8 +1,7 @@
 .single {
   width: 100%;
-  display: flex;
 
-  .singleContainer {
+  .newContainer {
     flex: 6;
 
     .top,
@@ -41,10 +40,16 @@
           gap: 30px;
           justify-content: space-around;
 
-          
-
           .formInput {
             width: 40%;
+
+            &--disable {
+              pointer-events:none;
+              
+                input {
+                  background:#FAFAFA;
+                }
+            }
 
             .inputRadioWrap {
               display: flex;
@@ -80,16 +85,7 @@
               border-bottom: 1px solid gray;
             }
           }
-          .MaKhoa, .MaChucVu ,.MaDT,.TongTienThuoc{
-            &--update {
-              pointer-events:none;
-              
-              input {
-               background:#FAFAFA;
-              }
-            }
-          }
-
+        
           .medicalExamination {
             &-update {
               &--MaPK {
@@ -102,16 +98,14 @@
             }
           }
 
-          .MaUser,.MaBS, .username{
-            pointer-events:none;
-            display: none;
-            
+          .MaUser,.MaBS, .username,.SDT{
             input {
+              pointer-events:none;
              background:#FAFAFA;
             }
           }
 
-          button {
+          .btn-update {
             width: 40%;
             padding: 10px;
             border: none;
@@ -120,7 +114,26 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+
+            &--loading{
+              opacity: 0.7;
+              width: 40%;
+              padding: 10px;
+              border: none;
+              background-color: teal;
+              color: white;
+              font-weight: bold;
+              cursor: pointer;
+              margin-top: 10px;
+              cursor: not-allowed;
+              pointer-events: none;
+            }
           }
+        }
+
+        .btn-box {
+          display: flex;
+          justify-content: end;
         }
       }
     }

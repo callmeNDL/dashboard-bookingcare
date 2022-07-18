@@ -19,83 +19,176 @@ import { getTimetable } from '../../redux/timetableSlide';
 import { getClinic } from '../../redux/clinicSlide';
 import { getBooking } from '../../redux/bookingSlide';
 import { getMedicalExamination } from '../../redux/medicalExamination';
+import AppLayout from "../../layout/Layout";
 
 
-const New = ({ inputs, title, img }) => {
+
+const New = ({ inputs, title, img, link }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [goitinh, setGioiTinh] = useState(true);
   const [file, setFile] = useState("");
+  const [inputData, setInputData] = useState();
 
   const assignDepartment = async () => {
-    const departmentResult = await dispatch(getDepartment());
-    const dataDepartment = unwrapResult(departmentResult);
 
-    const roleResult = await dispatch(getRole());
-    const dataRole = unwrapResult(roleResult);
+    if (title === "user") {
+      const roleResult = await dispatch(getRole());
+      const dataRole = unwrapResult(roleResult);
 
-    const userResult = await dispatch(getUser());
-    const dataUser = unwrapResult(userResult);
+      inputs.forEach(input => {
+        if (input.key === "MaChucVu" && Object.keys(dataRole).length !== 0) {
+          input.data = dataRole;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "doctor") {
+      const departmentResult = await dispatch(getDepartment());
+      const dataDepartment = unwrapResult(departmentResult);
 
-    const doctorResult = await dispatch(getDoctor());
-    const dataDoctor = unwrapResult(doctorResult);
+      inputs.forEach(input => {
+        if (input.key === "MaKhoa" && Object.keys(dataDepartment).length !== 0) {
+          input.data = dataDepartment;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "schedule") {
+      const doctorResult = await dispatch(getDoctor());
+      const dataDoctor = unwrapResult(doctorResult);
 
-    const medicineResult = await dispatch(getMedicine());
-    const dataMedicine = unwrapResult(medicineResult);
+      const clinicResult = await dispatch(getClinic());
+      const dataClinic = unwrapResult(clinicResult);
 
-    const prescriptionResult = await dispatch(getPrescription());
-    const dataPrescription = unwrapResult(prescriptionResult);
+      const timetableResult = await dispatch(getTimetable());
+      const dataTimetable = unwrapResult(timetableResult);
 
-    const timetableResult = await dispatch(getTimetable());
-    const dataTimetable = unwrapResult(timetableResult);
+      inputs.forEach(input => {
+        if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+          input.data = dataDoctor;
+        };
+        if (input.key === "CaKham" && Object.keys(dataTimetable).length !== 0) {
+          input.data = dataTimetable;
+        };
+        if (input.key === "MaPhong" && Object.keys(dataClinic).length !== 0) {
+          input.data = dataClinic;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "clinic") {
+      const departmentResult = await dispatch(getDepartment());
+      const dataDepartment = unwrapResult(departmentResult);
+      inputs.forEach(input => {
+        if (input.key === "MaKhoa" && Object.keys(dataDepartment).length !== 0) {
+          input.data = dataDepartment;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "booking") {
+      const userResult = await dispatch(getUser());
+      const dataUser = unwrapResult(userResult);
+      const doctorResult = await dispatch(getDoctor());
+      const dataDoctor = unwrapResult(doctorResult);
 
-    const clinicResult = await dispatch(getClinic());
-    const dataClinic = unwrapResult(clinicResult);
+      inputs.forEach(input => {
+        if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
+          input.data = dataUser;
+        };
+        if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+          input.data = dataDoctor;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "booking") {
+      const userResult = await dispatch(getUser());
+      const dataUser = unwrapResult(userResult);
+      const doctorResult = await dispatch(getDoctor());
+      const dataDoctor = unwrapResult(doctorResult);
 
-    const bookingResult = await dispatch(getBooking());
-    const dataBooking = unwrapResult(bookingResult);
+      inputs.forEach(input => {
+        if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
+          input.data = dataUser;
+        };
+        if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+          input.data = dataDoctor;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "medicalExamination") {
+      const bookingResult = await dispatch(getBooking());
+      const dataBooking = unwrapResult(bookingResult);
+      const timetableResult = await dispatch(getTimetable());
+      const dataTimetable = unwrapResult(timetableResult);
 
-    const medicalExaminationResult = await dispatch(getMedicalExamination());
-    const dataMedicalExamination = unwrapResult(medicalExaminationResult);
+      inputs.forEach(input => {
+        if (input.key === "MaDL" && Object.keys(dataBooking).length !== 0) {
+          input.data = dataBooking;
+        };
+        if (input.key === "CaKham" && Object.keys(dataTimetable).length !== 0) {
+          input.data = dataTimetable;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "medicalTest") {
+      const medicalExaminationResult = await dispatch(getMedicalExamination());
+      const dataMedicalExamination = unwrapResult(medicalExaminationResult);
 
-    inputs.forEach(input => {
-      if (input.key === "MaKhoa" && Object.keys(dataDepartment).length !== 0) {
-        input.data = dataDepartment;
-      };
-      if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
-        input.data = dataUser;
-      };
-      if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
-        input.data = dataDoctor;
-      };
-      if (input.key === "MaChucVu" && Object.keys(dataRole).length !== 0) {
-        input.data = dataRole;
-      };
-      if (input.key === "MaDT" && Object.keys(dataPrescription).length !== 0) {
-        input.data = dataPrescription;
-      };
-      if (input.key === "MaThuoc" && Object.keys(dataMedicine).length !== 0) {
-        input.data = dataMedicine;
-      };
-      if (input.key === "CaKham" && Object.keys(dataTimetable).length !== 0) {
-        input.data = dataTimetable;
-      };
-      if (input.key === "MaPhong" && Object.keys(dataClinic).length !== 0) {
-        input.data = dataClinic;
-      };
-      if (input.key === "MaDL" && Object.keys(dataBooking).length !== 0) {
-        input.data = dataBooking;
-      };
-      if (input.key === "MaPK" && Object.keys(dataMedicalExamination).length !== 0) {
-        input.data = dataMedicalExamination;
-      };
-    })
+      const doctorResult = await dispatch(getDoctor());
+      const dataDoctor = unwrapResult(doctorResult);
+      inputs.forEach(input => {
+        if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+          input.data = dataDoctor;
+        };
+
+        if (input.key === "MaPK" && Object.keys(dataMedicalExamination).length !== 0) {
+          input.data = dataMedicalExamination;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "prescription") {
+      const doctorResult = await dispatch(getDoctor());
+      const dataDoctor = unwrapResult(doctorResult);
+
+      const userResult = await dispatch(getUser());
+      const dataUser = unwrapResult(userResult);
+      inputs.forEach(input => {
+        if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+          input.data = dataDoctor;
+        };
+
+        if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
+          input.data = dataUser;
+        };
+        setInputData(inputs)
+      })
+    }
+    if (title === "prescriptionDetail") {
+      const prescriptionResult = await dispatch(getPrescription());
+      const dataPrescription = unwrapResult(prescriptionResult);
+      const medicineResult = await dispatch(getMedicine());
+      const dataMedicine = unwrapResult(medicineResult);
+      inputs.forEach(input => {
+        if (input.key === "MaDT" && Object.keys(dataPrescription).length !== 0) {
+          input.data = dataPrescription;
+        };
+        if (input.key === "MaThuoc" && Object.keys(dataMedicine).length !== 0) {
+          input.data = dataMedicine;
+        };
+        setInputData(inputs)
+      })
+    }
   }
-
 
   const onSubmit = async (data) => {
     try {
-      if (title === "user" || title === "doctor") {
+      if (img === "true") {
         const checkExist = await axios.post(`http://localhost:8001/api/${title}/check-${title}`, data);
         if (checkExist.data.errCode === 1) {
           toast.error(checkExist.data.errMessage)
@@ -111,8 +204,11 @@ const New = ({ inputs, title, img }) => {
           }
           if (urlHinhAnh.length !== 0) {
             data.HinhAnh = urlHinhAnh;
+          } else {
+            data.HinhAnh = "https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360";
           }
           const response = await axios.post(`http://localhost:8001/api/${title}/create-${title}`, data);
+          console.log(response);
           if (response.data.errCode === 1) {
             toast.error(response.data.errMessage)
           }
@@ -123,25 +219,27 @@ const New = ({ inputs, title, img }) => {
       } else {
         try {
           const response = await axios.post(`http://localhost:8001/api/${title}/create-${title}`, data);
-          if (response.data.errCode === '1') {
+          if (response.data.errCode === 1) {
             toast.error(response.data.errMessage)
           } else {
             return navigate(`/${title}s`)
           }
-          console.log(response);
         } catch (error) {
           toast.error(error.data)
         }
       }
     } catch (error) {
-      toast.error(`"No add ${title}`)
+      toast.error(`Không thể thêm ${title}`)
     }
   };
+
+  var uid = Number((new Date().getTime()).toString().slice(-6));
+
 
 
   useEffect(() => {
     assignDepartment();
-  }, [])
+  }, [title])
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -152,10 +250,10 @@ const New = ({ inputs, title, img }) => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>{`Add new ${title}`}</h1>
+          <h1>{`Thêm mới ${title}`}</h1>
         </div>
         <div className="bottom">
-          {!img
+          {img === "true"
             ? <div className="left">
               <img
                 src={
@@ -169,7 +267,7 @@ const New = ({ inputs, title, img }) => {
             : ""}
           <div className="right">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {!img
+              {img === "true"
                 ? <div className="formInput">
                   <label htmlFor="file">
                     Image: <DriveFolderUploadOutlinedIcon className="icon" />
@@ -185,7 +283,6 @@ const New = ({ inputs, title, img }) => {
               {
                 inputs.map((input) => {
                   if (input.type === "select") {
-                    console.log(input);
                     if (input.key === "MaPK") {
                       return <div className="formInput" key={input.id}>
                         <label>{input.label}</label>
@@ -194,6 +291,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaPK} key={option.MaPK}>{`${option.MaPK}`}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaPhong") {
@@ -204,6 +302,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaPhong} key={option.MaPhong}>{`${option.MaPhong} - ${option.TenPhongKham}`}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaDL") {
@@ -224,6 +323,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.CaKham} key={option.CaKham}>{`${option.CaKham} - ${option.ThoiGian}`}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaKhoa") {
@@ -234,6 +334,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaKhoa} key={option.MaKhoa}>{option.TenKhoa}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaDT") {
@@ -244,6 +345,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaDT} key={option.MaDT}>{option.MaDT}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaThuoc") {
@@ -254,6 +356,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaThuoc} key={option.MaThuoc}>{option.TenThuoc}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaChucVu") {
@@ -264,6 +367,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaChucVu} key={option.MaChucVu}>{option.TenChucVu}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaUser") {
@@ -274,6 +378,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaUser} key={option.MaUser}>{`${option.MaUser} - ${option.HoTen}`}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "MaBS") {
@@ -284,6 +389,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.MaBS} key={option.MaBS}>{`${option.MaBS} - ${option.HoTen}`}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                     if (input.key === "TrangThai") {
@@ -294,6 +400,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.value} key={option.key}>{option.value}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     } else {
                       return <div className="formInput" key={input.id}>
@@ -303,6 +410,7 @@ const New = ({ inputs, title, img }) => {
                             return <option value={option.key} key={option.key}>{option.value}</option>
                           })}
                         </select>
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                       </div>
                     }
                   }
@@ -311,36 +419,41 @@ const New = ({ inputs, title, img }) => {
                       <label>{input.label}</label>
                       <div className="inputRadioWrap">
                         {input.data.map((option) => {
-                          return <div className="inputRadio" key={option.key}>
+                          return <div className="inputRadio" key={option.key} onChange={() => { setGioiTinh(!goitinh) }}>
                             <label htmlFor="html">{option.value}</label>
-                            <input type="radio" name={input.key} value={option.key} {...register(`${input.key}`)} />
+                            <input type="radio" name={input.key} value={option.key} checked={option.key == goitinh} {...register(`${input.key}`)} />
                           </div>
                         })}
                       </div>
+                      {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
                     </div>
                   }
-                  if (input.type === "email") {
-                    return <div className="formInput" key={input.id}>
-                      <label>{input.label}</label>
-                      <input
-                        type={input.type}
-                        placeholder={input.placeholder}
-                        {...register(`${input.key}`,
-                          { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, })}
-                      />
-                    </div>
-                  } else {
-                    return <div className={`formInput formInput--${input.key}`} key={input.id}>
-                      <label>{input.label}</label>
-                      <input
-                        type={input.type}
-                        placeholder={input.placeholder}
-                        {...register(`${input.key}`, input.validation)}
-                      />
-                    </div>
+                  else {
+                    if (input.key === "MaUser" || input.key === "MaBS") {
+                      return <div className={`formInput formInput--${input.key} formInput--disable`} key={input.id}>
+                        <label>{input.label}</label>
+                        <input
+                          type={input.type}
+                          placeholder={input.placeholder}
+                          value={uid}
+                          {...register(`${input.key}`, input.validation)}
+                        />
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
+                      </div>
+                    }
+                    else {
+                      return <div className={`formInput formInput--${input.key}`} key={input.id}>
+                        <label>{input.label}</label>
+                        <input
+                          type={input.type}
+                          placeholder={input.placeholder}
+                          {...register(`${input.key}`, input.validation)}
+                        />
+                        {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
+                      </div>
+                    }
                   }
                 })}
-
               <button type="submit">Send</button>
             </form>
             <ToastContainer
@@ -356,6 +469,7 @@ const New = ({ inputs, title, img }) => {
             />
           </div>
         </div>
+
       </div>
     </div>
   );

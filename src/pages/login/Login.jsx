@@ -19,21 +19,15 @@ const Login = () => {
     setShowPassword(!showPassword);
   }
 
-  const res = useSelector((state) => state.auth.login.currentUser);
+  const res = useSelector((state) => state.auth.login?.currentUser);
 
   const onSubmit = async (data) => {
-    if (data.username || data.password) {
-      loginUser(data, dispatch, navigate);
-    }
-    else {
-      toast.error("Please enter username and password !");
-    }
-
+    loginUser(data, dispatch, navigate);
   }
 
   useEffect(() => {
     if (res) {
-      if (res.errCode == "0") {
+      if (res.errCode === "0") {
         return navigate("/home");
       } else {
         toast.error(res.message);
@@ -44,18 +38,27 @@ const Login = () => {
   return (
     <div className='login'>
       <section className="login-container">
-        <div className="login-title"> Log in</div>
+        <div className="login-title">Đăng nhập</div>
         <form className='from-login' onSubmit={handleSubmit(onSubmit)}>
-          <label>USERNAME</label>
+          <label>TÊN ĐĂNG NHẬP</label>
           <div className='username-box'>
-            <input type="text" className='username' placeholder="Enter your username" {...register("username")} />
+            <input type="text" className='username' placeholder="Nhập tên đăng nhập" {...register("username", { required: "Nhập tên đăng nhập." })} />
           </div>
-          <label>PASSWORD</label>
+          <label>MẬT KHẨU</label>
           <div className='password-box'>
-            <input type={showPassword ? "text" : "password"} placeholder="Enter your password" {...register("password")} />
+            <input type={showPassword ? "text" : "password"} placeholder="Nhập mật khẩu" {...register("password", { required: "Nhập mật khẩu." })} />
             <div className='icon-box' onClick={handleShowPassword}>{showPassword ? <RemoveRedEyeIcon className='icon' /> : <VisibilityOffIcon className='icon' />}</div>
           </div>
-          <div className='link-submit'><button type="submit" > Continue </button></div>
+          <div className="role-box">
+            <label>CHỨC VỤ</label>
+            <select {...register("ChucVu")} className="role-login">
+              <option value="AD" className='role-item'>Nhân viên</option>
+              <option value="BS" className='role-item'>Bác sĩ</option>
+            </select>
+          </div>
+          {errors[`username`]?.message && <p className="login-error">{errors[`username`]?.message}</p>}
+          {errors[`password`]?.message && <p className="login-error">{errors[`password`]?.message}</p>}
+          <div className='link-submit'><button type="submit" > Đăng nhập </button></div>
         </form>
         <div className="login-register"> Don't have an account yet? </div>
         <div className="login-register-link" to="/register">Register one for free </div>

@@ -6,11 +6,11 @@ const authSlide = createSlice({
     login: {
       currentUser: null,
       loading: false,
-      error: ''
+      error: false
     },
   },
   reducers: {
-    loginStart: (state, action) => {
+    loginStart: (state) => {
       state.login.loading = true;
     },
     loginSuccess: (state, action) => {
@@ -21,25 +21,32 @@ const authSlide = createSlice({
     loginFailed: (state) => {
       state.login.loading = false;
       state.login.error = true
+    },
+    logoutStart: (state, action) => {
+      state.login.loading = true;
+    },
+    logoutSuccess: (state) => {
+      state.login.loading = false;
+      state.login.currentUser = null;
+      state.login.error = false
+    },
+    logoutFailed: (state) => {
+      state.login.loading = false;
+      state.login.error = true
     }
-
   },
   extraReducers: {
-    //getUser
-    // [getUser.pending](state) {
-    //   state.loading = true;
-    // },
-    // [getUser.fulfilled](state, { payload }) {
-    //   state.loading = false;
-    //   state.data = payload;
-    // },
-    // [getUser.rejected](state, { payload }) {
-    //   state.loading = false;
-    //   state.error = payload
-    // },
+
   }
 })
 
 
-export const { loginStart, loginFailed, loginSuccess } = authSlide.actions;
+export const {
+  loginStart,
+  loginFailed,
+  loginSuccess,
+  logoutStart,
+  logoutFailed,
+  logoutSuccess
+} = authSlide.actions;
 export default authSlide.reducer;

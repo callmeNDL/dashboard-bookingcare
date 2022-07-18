@@ -1,6 +1,4 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRole } from '../../redux/roleSlide';
+import AppLayout from "../../layout/Layout";
 
 
 const SingleRole = ({ inputs, title }) => {
@@ -58,9 +57,7 @@ const SingleRole = ({ inputs, title }) => {
 
   return (
     <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+      <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
@@ -90,7 +87,7 @@ const SingleRole = ({ inputs, title }) => {
                     </div>
                   }
                 })}
-              <button type="submit">UPDATE</button>
+              <button type="submit" className="btn-update">UPDATE</button>
             </form>
             <ToastContainer
               position="top-right"
@@ -105,7 +102,7 @@ const SingleRole = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </div>
+      </AppLayout>
     </div>
   );
 };

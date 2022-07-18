@@ -122,7 +122,6 @@ export const scheduleColumns = [
   },
 
 ];
-
 export const departmentColumns = [
   {
     field: "MaKhoa",
@@ -324,6 +323,11 @@ export const clinicColumns = [
 ];
 export const prescriptionColumns = [
   { field: "MaDT", headerName: "MaDT", width: 70 },
+  {
+    field: "MaPK",
+    headerName: "MaPK",
+    width: 100,
+  },
   {
     field: "MaBS",
     headerName: "MaBS",
