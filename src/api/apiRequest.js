@@ -5,8 +5,7 @@ import { loginFailed, loginStart, loginSuccess } from "../redux/authSlide";
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   try {
-    const res = await axios.post('http://localhost:8001/auth/login-user', user);
-    console.log(res);
+    const res = await axios.post('http://localhost:8001/auth/login-admin', user);
     if (res.data.errCode === 0) {
       dispatch(loginSuccess(res.data.user));
       navigate('/home')

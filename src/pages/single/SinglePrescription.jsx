@@ -11,6 +11,10 @@ import { getDoctor } from '../../redux/doctorSlide';
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate, useParams, Link } from "react-router-dom";
 import AppLayout from "../../layout/Layout";
+import PrintMedicalEx from "../../components/print/PrintMedicalEx";
+import { getDTDetail } from "../../apiServices/presDetailServices";
+import { printPrescriptionFailed, printPrescriptionStart, printPrescriptionSuccess } from "../../redux/printSlide";
+
 const SinglePrescription = ({ inputs, title }) => {
   const { prescriptionID } = useParams();
   const navigate = useNavigate();
@@ -19,6 +23,8 @@ const SinglePrescription = ({ inputs, title }) => {
   const [id, setID] = useState('');
   const [data, setData] = useState('');
   const [inputData, setInputData] = useState();
+
+
 
   const assignDepartment = async () => {
     const userResult = await dispatch(getUser());
@@ -65,6 +71,21 @@ const SinglePrescription = ({ inputs, title }) => {
       toast.error("No prescription update")
     }
   };
+
+  const handlePrintPrescription = async () => {
+    dispatch(printPrescriptionStart())
+    const dataPrint = {
+      dataDTDetail: await getDTDetail(data.MaDT, dispatch),
+      dataDT: data
+    }
+    if (dataPrint) {
+      dispatch(printPrescriptionSuccess(dataPrint));
+      navigate('/style')
+    } else {
+      dispatch(printPrescriptionFailed())
+    }
+
+  }
 
   useEffect(() => {
     getData()
@@ -159,6 +180,8 @@ const SinglePrescription = ({ inputs, title }) => {
               <Link to={`/prescriptionDetails/detail/${data?.MaDT}`} className="link">
                 <button className="btn"> <InfoIcon className=" icon" /> Chi tiết đơn thuốc</button>
               </Link>
+              <button className="btn btn--green" onClick={handlePrintPrescription}> <InfoIcon className=" icon" />In hoá đơn thuốc</button>
+
             </div>
           </div>
 

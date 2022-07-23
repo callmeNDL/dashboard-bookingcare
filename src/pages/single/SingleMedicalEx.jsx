@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTimetable } from '../../redux/timetableSlide';
 import { getBooking } from '../../redux/bookingSlide';
 import { getMedicalExamination } from "../../redux/medicalExamination";
+import { getClinic } from "../../redux/clinicSlide";
 import AppLayout from "../../layout/Layout";
 
 const SingleMedicalExamination = ({ inputs, title }) => {
@@ -23,22 +24,28 @@ const SingleMedicalExamination = ({ inputs, title }) => {
   const [inputData, setInputData] = useState();
 
   const assignDepartment = async () => {
-    const timetableResult = await dispatch(getTimetable());
-    const dataTimetable = unwrapResult(timetableResult);
-
     const bookingResult = await dispatch(getBooking());
     const dataBooking = unwrapResult(bookingResult);
+    const timetableResult = await dispatch(getTimetable());
+    const dataTimetable = unwrapResult(timetableResult);
+    const clinicResult = await dispatch(getClinic());
+    const dataClinic = unwrapResult(clinicResult);
 
     inputs.forEach(input => {
+      if (input.key === "MaDL" && Object.keys(dataBooking).length !== 0) {
+        input.data = dataBooking;
+      };
       if (input.key === "CaKham" && Object.keys(dataTimetable).length !== 0) {
         input.data = dataTimetable;
       };
-      if (input.key === "MaDL" && Object.keys(dataBooking).length !== 0) {
-        input.data = dataBooking;
+      if (input.key === "MaPhong" && Object.keys(dataClinic).length !== 0) {
+        input.data = dataClinic;
       };
       setInputData(inputs)
     })
   }
+
+
 
   const getData = async () => {
     if (medicalExaminationID) {
@@ -75,10 +82,8 @@ const SingleMedicalExamination = ({ inputs, title }) => {
 
   const dataMedicalExamination = useSelector((state) => state.medicalExamination.data);
   let currentMedicalExamination = dataMedicalExamination.find((item) => item.id == `${medicalExaminationID}`);
-  // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentMedicalExamination });
+  console.log(currentMedicalExamination);
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentMedicalExamination });
-
-  console.log("Render");
 
   return (
     <div className="single">
@@ -99,6 +104,16 @@ const SingleMedicalExamination = ({ inputs, title }) => {
                         <select name={input.label} {...register(`${input.key}`)}>
                           {input.data.map((option) => {
                             return <option value={option.MaDL} key={option.MaDL}>{`${option.MaDL}`}</option>
+                          })}
+                        </select>
+                      </div>
+                    }
+                    if (input.key === "MaPhong") {
+                      return <div className={`formInput ${title}-update--${input.key} `} key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.MaPhong} key={option.MaPhong}>{`${option.MaPhong} - ${option.TenPhongKham}`}</option>
                           })}
                         </select>
                       </div>
@@ -135,8 +150,8 @@ const SingleMedicalExamination = ({ inputs, title }) => {
                 })
               }
               <button type="submit" className="btn-update">UPDATE</button>
-
             </form>
+
             <ToastContainer
               position="top-right"
               autoClose={3000}

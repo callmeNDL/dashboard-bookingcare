@@ -371,8 +371,7 @@ export const bookingInputs = [
     label: "Ma DL",
     key: "MaDL",
     type: "number",
-    placeholder: "3001",
-    validation: { required: "Không được để trống" }
+    placeholder: "3001"
   },
   {
     id: 2,
@@ -380,7 +379,12 @@ export const bookingInputs = [
     key: "MaUser",
     type: "select",
     data: [],
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 3,
@@ -388,21 +392,36 @@ export const bookingInputs = [
     key: "MaBS",
     type: "select",
     data: [],
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 4,
     label: "Thời gian",
     key: "ThoiGian",
     type: "time",
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 5,
     label: "NGày dặt lịch",
     key: "NgayDL",
     type: "date",
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 6,
@@ -410,7 +429,12 @@ export const bookingInputs = [
     key: "TinhTrangBN",
     type: "text",
     placeholder: "...",
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
     id: 7,
@@ -418,7 +442,12 @@ export const bookingInputs = [
     key: "TrangThai",
     type: "select",
     data: [{ key: 0, value: "new" }, { key: 1, value: "confirmed" }, { key: 2, value: "failure" }],
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
 ];
 export const medicalExaminationInputs = [
@@ -427,38 +456,77 @@ export const medicalExaminationInputs = [
     label: "Ma PK",
     key: "MaPK",
     type: "number",
-    placeholder: "1",
-    validation: { required: "Không được để trống" }
+    placeholder: "1"
   },
   {
     id: 2,
+    label: "Phòng khám",
+    key: "MaPhong",
+    type: "select",
+    data: [],
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
+  },
+  {
+    id: 3,
     label: "Mã DL",
     key: "MaDL",
     type: "select",
     data: [],
     validation: {
       required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      },
     }
   },
   {
-    id: 3,
+    id: 4,
     label: "Ca Khám",
     key: "CaKham",
     type: "select",
     data: [],
     validation: {
-      required: "Không được để trống",
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      },
     }
   },
   {
-    id: 4,
+    id: 5,
     label: "Ngày khám",
     key: "NgayKham",
     type: "date",
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống", maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
   },
   {
-    id: 5,
+    id: 6,
+    label: "TenPK",
+    key: "TenPK",
+    type: "text",
+    placeholder: "Tên Phiếu khám",
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
+    }
+  },
+  {
+    id: 7,
     label: "Kết quả khám",
     key: "KetQua",
     type: "text",
@@ -591,7 +659,7 @@ export const medicineInputs = [
     label: "Đơn vị",
     key: "DonVi",
     type: "select",
-    data: [{ key: "Hộp", value: "Hộp" }, { key: "Lọ", value: "Lọ" }, { key: "Cái", value: "Cái" }, { key: "Bịch", value: "Bịch" }, { key: "Kg", value: "Kg" }, { key: "Cuộn", value: "Cuộn" }],
+    data: [{ key: "Hộp", value: "Hộp" }, { key: "Lọ", value: "Lọ" }, { key: "Cái", value: "Cái" }, { key: "Bịch", value: "Bịch" }, { key: "Kg", value: "Kg" }, { key: "Cuộn", value: "Cuộn" }, { key: "Chai", value: "Chai" }],
     validation: {
       required: "Không được để trống",
     }
@@ -778,29 +846,40 @@ export const prescriptionDetailInputs = [
     id: 3,
     label: "Liều lượng trong ngày",
     key: "LieuLuong",
-    type: "select",
-    data: [{ key: 1, value: "1 Lần" }, { key: 2, value: "2 Lần" }, { key: 3, value: "3 Lần" }],
+    type: "text",
     validation: {
       required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
     }
   },
   {
     id: 4,
-    label: "Số lượng mỗi lần uống",
+    label: "Số lượng thuốc",
     key: "SoLuong",
     type: "number",
     validation: {
       required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
     }
   },
   {
     id: 5,
-    label: "Số ngày uống",
+    label: "Số ngày sủ dụng thuốc",
     key: "SoNgayUong",
     type: "number",
     placeholder: "15",
     validation: {
       required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      }
     }
   },
   {

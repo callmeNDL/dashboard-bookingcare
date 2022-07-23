@@ -1,0 +1,128 @@
+.print-medicalExamination {
+  padding: 20px 50px;
+  font-family: none !important;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    &--info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      h2 {
+        text-transform: uppercase;
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .title {
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .info-medical {
+    margin: 10px 0 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  .user {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+
+    .info {
+      display: flex;
+      width: 100%;
+      padding: 3px 0 3px;
+
+      &__content {
+        margin-left: 10px;
+        font-weight: bold;
+      }
+
+      &--with50 {
+        width: 50%;
+      }
+
+      &--with25 {
+        width: 24%;
+      }
+    }
+  }
+
+  .list-medicine {
+    margin-top: 20px;
+
+    &__title {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 20%;
+      padding-bottom: 10px;
+    }
+
+    .wrap {
+      display: flex;
+      border-bottom: 1px solid black;
+      padding: 5px 0 10px ;
+
+      .stt {
+        font-weight: bold;
+      }
+
+      .medicine {
+        padding-left: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        width: 95%;
+        
+  
+        &__name {
+          text-transform: uppercase;
+          font-size: 16px;
+          font-weight: 500;
+          width: 80%;
+        }
+  
+        &__count {
+          width: 10%;
+        }
+
+        &__desc {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .advice {
+    margin-top: 20px;
+    
+    &__title {
+      width: fit-content;
+      font-weight: bold;
+      text-transform: inherit;
+      border-bottom: 1px solid black;
+    }
+  }
+
+  .singed {
+    float: right;
+    margin-top: 30px;
+
+    &__title {
+     display: flex;
+     justify-content: center;
+    }
+    
+  }
+}

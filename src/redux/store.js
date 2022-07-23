@@ -15,6 +15,7 @@ import medicalTestReducer from './medicalTest';
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import printSlide from './printSlide';
 
 const persistConfig = {
   key: 'root',
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   timetable: timetableReducer,
   medicalExamination: medicalExaminationReducer,
   medicalTest: medicalTestReducer,
+  print: printSlide,
 
 })
 

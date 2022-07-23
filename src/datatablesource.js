@@ -107,7 +107,7 @@ export const scheduleColumns = [
   {
     field: "MaPhong",
     headerName: "MaPhong",
-    width: 200,
+    width: 100,
 
   },
   {
@@ -195,6 +195,11 @@ export const medicalExaminationColumns = [
     field: "MaDL",
     headerName: "MaDL",
     width: 100,
+  },
+  {
+    field: "TenPK",
+    headerName: "TenPK",
+    width: 200,
   },
   {
     field: "CaKham",
@@ -381,7 +386,7 @@ export const prescriptionDetailColumns = [
   {
     field: "LieuLuong",
     headerName: "LieuLuong",
-    width: 100,
+    width: 300,
   },
   {
     field: "SoLuong",
@@ -390,7 +395,7 @@ export const prescriptionDetailColumns = [
   },
   {
     field: "SoNgayUong",
-    headerName: "SoNgayUong",
+    headerName: "SoNgaySuDung",
     width: 150,
   },
   {

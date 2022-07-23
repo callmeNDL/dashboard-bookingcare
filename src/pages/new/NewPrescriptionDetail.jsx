@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { getMedicine } from '../../redux/medicineSlide';
-import { getDTDetail } from "../../apiServices/presDetailServices";
+import { getDTDetail, updatePrescriptionDetail } from "../../apiServices/presDetailServices";
 import { DataGrid } from '@mui/x-data-grid';
 import { prescriptionDetailColumns } from '../../datatablesource'
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,7 +20,8 @@ const NewPrescriptionDetail = ({ inputs }) => {
   //state
   const [listPreDetails, setListPreDetails] = useState({});
   const [inputData, setInputData] = useState();
-  const [defaultValue, setDefaultValue] = useState({});
+  const [action, setAction] = useState("CREATE");
+
 
   //usehookform
 
@@ -28,17 +29,27 @@ const NewPrescriptionDetail = ({ inputs }) => {
   const data = useSelector((state) => state.prescriptionDetail.prescriptionDetail)
 
   const onSubmit = async (data) => {
-    data.MaDT = prescriptionID;
-    try {
-      const response = await axios.post(`http://localhost:8001/api/prescriptionDetail/create-prescriptionDetail`, data);
+    if (action === "CREATE") {
+      try {
+        const response = await axios.post(`http://localhost:8001/api/prescriptionDetail/create-prescriptionDetail`, data);
+        if (response.data.errCode === 1) {
+          toast.error(response.data.message)
+        }
+        fetchPresciptDetail();
+        toast.success(response.data.message)
+      } catch (error) {
+        toast.error(error.data)
+      }
+    } else {
+      const response = await updatePrescriptionDetail(data);
       console.log(response);
-      if (response.data.errCode === 1) {
+      if (response.errCode === 0) {
+        fetchPresciptDetail();
+        toast.success(response.errMessage)
+        reset()
+      } else {
         toast.error(response.data.message)
       }
-      fetchPresciptDetail();
-      toast.success(response.data.message)
-    } catch (error) {
-      toast.error(error.data)
     }
   }
 
@@ -59,6 +70,17 @@ const NewPrescriptionDetail = ({ inputs }) => {
     setListPreDetails(data)
   };
 
+  const resetFrom = () => {
+    reset({
+      MaDT: prescriptionID,
+      MaThuoc: inputs[1].data[0].MaThuoc,
+      LieuLuong: "",
+      SoLuong: "",
+      SoNgayUong: "",
+    });
+    setAction("CREATE")
+  }
+
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(`http://localhost:8001/api/prescriptionDetail/delete-prescriptionDetail`, {
@@ -77,27 +99,30 @@ const NewPrescriptionDetail = ({ inputs }) => {
     } catch (error) {
       toast.error("Không thể xoá")
     }
-  }
+  };
 
   const handleUpdate = async (data) => {
-    setDefaultValue(data.row);
-  }
-
+    reset(data.row);
+    setAction("UPDATE");
+    console.log(data.row);
+  };
 
   useEffect(() => {
     assignDepartment();
     fetchPresciptDetail();
   }, [])
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({});
-
-  console.log(defaultValue);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      MaDT: prescriptionID
+    }
+  });
 
   const actionColum = [
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 130,
       renderCell: (params) => {
         return (
           <div className='cellAction'>
@@ -166,7 +191,8 @@ const NewPrescriptionDetail = ({ inputs }) => {
                 })
               }
 
-              <button type="submit">Send</button>
+              <button type="submit">{action}</button>
+              <div type="" className="btn--reset-from" onClick={resetFrom}>reset from</div>
             </form>
           </div>
 
@@ -176,13 +202,23 @@ const NewPrescriptionDetail = ({ inputs }) => {
             <div className='datatableTitle'>
               {`Danh sách thuốc đơn ${prescriptionID}`}
             </div>
-            <DataGrid
-              className='dataGrid'
-              rows={data}
-              columns={prescriptionDetailColumns.concat(actionColum)}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-            />
+            <div style={{ height: 430, width: '100%' }}>
+              <DataGrid
+                className='dataGrid'
+                rows={data}
+                columns={prescriptionDetailColumns.concat(actionColum)}
+                pageSize={6}
+                rowsPerPageOptions={[6]}
+                sx={{
+                  boxShadow: 3,
+                  border: 2,
+                  borderColor: '#018080',
+                  '& .MuiDataGrid-cell:hover': {
+                    color: '#018080',
+                  },
+                }}
+              />
+            </div>
             <ToastContainer
               position="top-right"
               autoClose={3000}

@@ -12,6 +12,8 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import NewPrescriptionDetail from './pages/new/NewPrescriptionDetail';
 import AppLayout from './layout/Layout';
+import NewShedule from './pages/new/NewShedule';
+import PrintMedicalEx from './components/print/PrintMedicalEx';
 
 function App() {
 
@@ -26,7 +28,7 @@ function App() {
           <Route path="/">
             <Route index element={<Login />} />
             <Route path="home" element={<Home />} />
-            <Route path="applayout" element={<AppLayout />} />
+            <Route path="style" element={<PrintMedicalEx />} />
 
             <Route path="users">
               <Route index element={<List colum={userColumns} title="users" titleApi="user" />} />
@@ -57,6 +59,8 @@ function App() {
               <Route index element={<List colum={scheduleColumns} title="schedules" titleApi="schedule" />} />
               <Route path=":scheduleID" element={<SingleSchedule inputs={scheduleInputs} title="schedule" img="false" />} />
               <Route path="new" element={<New inputs={scheduleInputs} title="schedule" img="false" />} />
+              <Route path="detail/:MaBS" element={<NewShedule inputs={scheduleInputs} />} />
+
             </Route>
             <Route path="departments">
               <Route index element={<List colum={departmentColumns} title="departments" titleApi="department" />} />

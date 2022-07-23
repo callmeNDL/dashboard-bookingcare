@@ -1,17 +1,16 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartment } from '../../redux/departmentSlide';
 import { getDoctor } from '../../redux/doctorSlide';
 import AppLayout from "../../layout/Layout";
+import InfoIcon from '@mui/icons-material/Info';
 
 
 const SingleDoctor = ({ inputs, title, img }) => {
@@ -214,6 +213,11 @@ const SingleDoctor = ({ inputs, title, img }) => {
               draggable
               pauseOnHover
             />
+            <div className="btn-box">
+              <Link to={`/schedules/detail/${data?.MaBS}`} className="link">
+                <button className="btn"> <InfoIcon className=" icon" />Lịch làm việc</button>
+              </Link>
+            </div>
           </div>
         </div>
       </AppLayout>

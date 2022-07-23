@@ -32,6 +32,11 @@
         }
       }
 
+      &--no-border{
+        border: none;
+        box-shadow: none;
+      }
+
       .right {
         flex: 2;
 
@@ -40,11 +45,12 @@
           flex-wrap: wrap;
           gap: 30px;
           justify-content: space-around;
+          position: relative;
 
           .formInput {
             width: 40%;
 
-            &--HinhAnh {
+            &--HinhAnh,&--MaDL,&--MaPK {
              display: none;
             }
 
@@ -101,6 +107,22 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+          }
+
+          .btn--reset-from {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            padding: 10px;
+            color: rgb(170, 6, 6);
+            background: white;
+            border: 1px solid rgb(170, 6, 6);
+
+            &:hover {
+              color: white;
+              background: rgb(170, 6, 6);
+            }
           }
         }
       }
