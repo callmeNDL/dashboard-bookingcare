@@ -9,11 +9,12 @@ import { getUser } from '../../redux/userSlide';
 import { getPrescription } from '../../redux/prescriptionSlide';
 import { getDoctor } from '../../redux/doctorSlide';
 import InfoIcon from '@mui/icons-material/Info';
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { useNavigate, useParams, Link } from "react-router-dom";
 import AppLayout from "../../layout/Layout";
-import PrintMedicalEx from "../../components/print/PrintMedicalEx";
 import { getDTDetail } from "../../apiServices/presDetailServices";
 import { printPrescriptionFailed, printPrescriptionStart, printPrescriptionSuccess } from "../../redux/printSlide";
+import { getMedicalExamination } from "../../redux/medicalExamination";
 
 const SinglePrescription = ({ inputs, title }) => {
   const { prescriptionID } = useParams();
@@ -27,18 +28,25 @@ const SinglePrescription = ({ inputs, title }) => {
 
 
   const assignDepartment = async () => {
-    const userResult = await dispatch(getUser());
-    const dataUser = unwrapResult(userResult);
-
     const doctorResult = await dispatch(getDoctor());
     const dataDoctor = unwrapResult(doctorResult);
 
+    const userResult = await dispatch(getUser());
+    const dataUser = unwrapResult(userResult);
+
+    const medicalExaminationResult = await dispatch(getMedicalExamination());
+    const dataMedicalExamination = unwrapResult(medicalExaminationResult);
+
     inputs.forEach(input => {
+      if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
+        input.data = dataDoctor;
+      };
+
       if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
         input.data = dataUser;
       };
-      if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
-        input.data = dataDoctor;
+      if (input.key === "MaPK" && Object.keys(dataMedicalExamination).length !== 0) {
+        input.data = dataMedicalExamination;
       };
       setInputData(inputs)
     })
@@ -80,11 +88,10 @@ const SinglePrescription = ({ inputs, title }) => {
     }
     if (dataPrint) {
       dispatch(printPrescriptionSuccess(dataPrint));
-      navigate('/style')
+      navigate('/print-prescription')
     } else {
       dispatch(printPrescriptionFailed())
     }
-
   }
 
   useEffect(() => {
@@ -95,6 +102,7 @@ const SinglePrescription = ({ inputs, title }) => {
 
   const dataPrescription = useSelector((state) => state.prescription.data);
   let currentPrescription = dataPrescription.find((item) => item.id == `${prescriptionID}`);
+  console.log(currentPrescription);
   // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentPrescription });
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentPrescription });
 
@@ -127,6 +135,16 @@ const SinglePrescription = ({ inputs, title }) => {
                         <select name={input.label} {...register(`${input.key}`)}>
                           {input.data.map((option) => {
                             return <option value={option.MaBS} key={option.MaBS}>{option.HoTen}</option>
+                          })}
+                        </select>
+                      </div>
+                    }
+                    if (input.key === "MaPK") {
+                      return <div className="formInput" key={input.id}>
+                        <label>{input.label}</label>
+                        <select name={input.label} {...register(`${input.key}`)}>
+                          {input.data.map((option) => {
+                            return <option value={option.MaPK} key={option.MaPK}>{option.MaPK}</option>
                           })}
                         </select>
                       </div>
@@ -180,7 +198,7 @@ const SinglePrescription = ({ inputs, title }) => {
               <Link to={`/prescriptionDetails/detail/${data?.MaDT}`} className="link">
                 <button className="btn"> <InfoIcon className=" icon" /> Chi tiết đơn thuốc</button>
               </Link>
-              <button className="btn btn--green" onClick={handlePrintPrescription}> <InfoIcon className=" icon" />In hoá đơn thuốc</button>
+              <button className="btn btn--green" onClick={handlePrintPrescription}> <LocalPrintshopIcon className=" icon" />In hoá đơn thuốc</button>
 
             </div>
           </div>

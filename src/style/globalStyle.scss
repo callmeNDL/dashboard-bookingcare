@@ -10,14 +10,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin-left: 20px;
   .icon {
     margin-right: 5px;
   }
 
   &--green {
   background-color: #459e68	;
-  margin-left: 20px;
+  }
+  &--primary {
+    background-color: #2196f3	;
+  }
+  &--secondary {
+    background-color: #ff7961	;
+  }
+  &--view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
   }
   
 
@@ -28,5 +39,27 @@
 
   .btn {
     font-weight: 500;
+  }
+}
+
+.medical-wrap {
+  h2 {
+    color: teal;
+    padding: 20px 0 ;
+    display: flex;
+    justify-content: center;
+  }
+
+  .medical-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0 ;
+
+    .title {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .text {font-size: 16px;}
   }
 }

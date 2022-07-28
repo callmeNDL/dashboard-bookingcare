@@ -130,7 +130,6 @@ const SinglePrescription = ({ inputs, title }) => {
                       </div>
                     }
                   }
-
                   return <div className={`formInput ${input.key}--update`} key={input.id}>
                     <label>{input.label}</label>
                     <input

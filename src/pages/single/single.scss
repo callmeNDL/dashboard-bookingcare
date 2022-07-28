@@ -133,10 +133,21 @@
 
         .btn-box {
           display: flex;
-          justify-content: end;
-          
+          justify-content: start;
+          flex-wrap: wrap;
         }
+
+        
       }
+
+      &--disable {
+        pointer-events: none;
+      }
+    }
+    .btn-box {
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
     }
   }
 }

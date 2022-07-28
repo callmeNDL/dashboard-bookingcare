@@ -148,19 +148,43 @@ export const bookingColumns = [
     width: 100,
   },
   {
-    field: "MaUser",
-    headerName: "MaUser",
-    width: 100,
+    field: "user",
+    headerName: "User",
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row?.MaUser} - {params.row.User?.HoTen}
+        </div>
+      );
+    },
   },
   {
-    field: "MaBS",
-    headerName: "MaBS",
+    field: "Doctor",
+    headerName: "Doctor",
+    width: 280,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row?.MaBS} - {params.row.Doctor?.HoTen}
+        </div>
+      );
+    },
+  },
+  {
+    field: "CaKham",
+    headerName: "CaKham",
     width: 100,
   },
   {
     field: "ThoiGian",
-    headerName: "ThoiGian",
-    width: 150,
+    headerName: "ThoiGianChon",
+    width: 120,
+  },
+  {
+    field: "ThoiGianDuKien",
+    headerName: "ThoiGianDuKien",
+    width: 120,
   },
   {
     field: "NgayDL",
@@ -197,6 +221,18 @@ export const medicalExaminationColumns = [
     width: 100,
   },
   {
+    field: "Doctor",
+    headerName: "Doctor",
+    width: 80,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.Booking?.MaBS}
+        </div>
+      );
+    },
+  },
+  {
     field: "TenPK",
     headerName: "TenPK",
     width: 200,
@@ -207,14 +243,110 @@ export const medicalExaminationColumns = [
     width: 100,
   },
   {
+    field: "ThoiGianKham",
+    headerName: "ThoiGianKham",
+    width: 110,
+  },
+  {
     field: "NgayKham",
     headerName: "NgayKham",
-    width: 150,
+    width: 120,
+  },
+  {
+    field: "MaPhong",
+    headerName: "MaPhong",
+    width: 100,
   },
   {
     field: "KetQua",
     headerName: "KetQua",
     width: 250,
+  },
+];
+export const medicalDetailColumns = [
+  {
+    field: "User",
+    headerName: "User",
+    width: 180,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.User?.HoTen}
+        </div>
+      );
+    },
+  },
+  {
+    field: "MaPK",
+    headerName: "MaPK",
+    width: 80,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.MedicalExamination?.MaPK}
+        </div>
+      );
+    },
+  },
+  {
+    field: "Doctor",
+    headerName: "Doctor",
+    width: 220,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.Doctor?.HoTen}
+        </div>
+      );
+    },
+  },
+  {
+    field: "TenPK",
+    headerName: "TenPK",
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.MedicalExamination?.TenPK}
+        </div>
+      );
+    },
+  },
+  {
+    field: "CaKham",
+    headerName: "CaKham",
+    width: 80,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.MedicalExamination?.CaKham}
+        </div>
+      );
+    },
+  },
+  {
+    field: "NgayKham",
+    headerName: "NgayKham",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.MedicalExamination?.NgayKham}
+        </div>
+      );
+    },
+  },
+  {
+    field: "KetQua",
+    headerName: "KetQua",
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.MedicalExamination?.KetQua}
+        </div>
+      );
+    },
   },
 ];
 export const medicalTestColumns = [

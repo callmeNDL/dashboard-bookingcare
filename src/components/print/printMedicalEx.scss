@@ -125,4 +125,161 @@
     }
     
   }
+
+  &--small {
+    max-width: 500px;
+    margin: 0 auto;
+
+    .header {
+      &--info {
+        h2 {
+          font-size: 16px;
+        }
+
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .title {
+      margin-top: 100px;
+      font-size: 30px;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .nameMedical {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+      }
+  
+      .room {
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 5px;
+        border-bottom: 1px solid black;
+      }
+
+      .code {
+        padding: 5px;
+        border-bottom: 1px solid black;
+
+        span {
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
+
+      .user {
+        display: flex;
+        justify-content: center;
+        .name {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          font-size: 20px;
+          text-transform: uppercase;
+          padding-bottom: 10px;
+        }
+
+        &__info {
+          padding: 0 5px 20px 5px;
+          border-bottom: 1px solid black;
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+  }
 }
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .page-header {
+    margin: 0 0 1rem;
+    padding-bottom: 1rem;
+    padding-top: .5rem;
+    border-bottom: 1px dotted #e2e2e2;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .page-title {
+      padding: 0;
+      margin: 0;
+      font-size: 17px;
+      font-weight: 300;
+    }
+  }
+  .content {
+    .title-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .user-info {
+      display: flex;
+      flex-flow: row wrap;
+      .col-left {
+        flex: 70%;
+      }
+      .col-right {
+        flex: 30%;
+      }
+      
+      &__item {
+        .title{
+          font-weight: bold;
+          margin-right: 10px;
+        }
+      }
+    }
+    .list-item {
+      margin-top: 40px;
+      .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 12px;
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+    }
+
+    .auth {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .admin{
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+  .right {
+  text-align: right;
+}
+
+
+.table th,
+.table td {
+  padding: 10px;
+  vertical-align: top;
+  border: 1px solid;
+}
+
+.table thead th {
+  vertical-align: bottom;
+}
+}
+

@@ -68,22 +68,47 @@ const List = (props) => {
         const dataResult = unwrapResult(actionResult);
         setData(dataResult)
       }
-
     }
     if (props.title === "medicalExaminations") {
-      let actionResult = await dispatch(getMedicalExamination());
-      const dataResult = unwrapResult(actionResult);
-      setData(dataResult)
+      if (loginRole.MaBS && loginRole.MaBS.length !== 0) {
+        let actionResult = await dispatch(getMedicalExamination());
+        const dataResult = unwrapResult(actionResult);
+        const medicalWithDoctor = dataResult.filter((item) => item.Booking.MaBS === loginRole.MaBS);
+        setData(medicalWithDoctor)
+      }
+      else {
+        let actionResult = await dispatch(getMedicalExamination());
+        const dataResult = unwrapResult(actionResult);
+        console.log(dataResult);
+        setData(dataResult)
+      }
     }
     if (props.title === "medicalTests") {
-      let actionResult = await dispatch(getMedicalTest());
-      const dataResult = unwrapResult(actionResult);
-      setData(dataResult)
+      if (loginRole.MaBS && loginRole.MaBS.length !== 0) {
+        let actionResult = await dispatch(getMedicalTest());
+        const dataResult = unwrapResult(actionResult);
+        const medicalTestWithDoctor = dataResult.filter((item) => item.MaBS === loginRole.MaBS);
+        setData(medicalTestWithDoctor)
+      }
+      else {
+        let actionResult = await dispatch(getMedicalTest());
+        const dataResult = unwrapResult(actionResult);
+        setData(dataResult)
+      }
     }
     if (props.title === "prescriptions") {
-      let actionResult = await dispatch(getPrescription());
-      const dataResult = unwrapResult(actionResult);
-      setData(dataResult)
+      if (loginRole.MaBS && loginRole.MaBS.length !== 0) {
+        let actionResult = await dispatch(getPrescription());
+        const dataResult = unwrapResult(actionResult);
+        const prescriptionWithDoctor = dataResult.filter((item) => item.MaBS === loginRole.MaBS);
+        setData(prescriptionWithDoctor)
+      }
+      else {
+        let actionResult = await dispatch(getPrescription());
+        const dataResult = unwrapResult(actionResult);
+        setData(dataResult)
+      }
+
     }
     if (props.title === "medicines") {
       let actionResult = await dispatch(getMedicine());

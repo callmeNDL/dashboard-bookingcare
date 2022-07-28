@@ -1,101 +1,67 @@
 import './printMedicalEx.scss'
-import { ReactComponent as Logo } from '../../assets/img/logo.svg';
 import { useReactToPrint } from 'react-to-print';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { useSelector } from 'react-redux';
+import HeaderPrint from './HeaderPrint';
+import { getBookingWithMaDL } from '../../apiServices/bookingServices';
+import { getMedicalExaminationWithMaDL } from '../../apiServices/medicalExamiantionServices';
+
 
 function PrintMedicalEx() {
+  const [dataBooking, setDataBooking] = useState({});
+  const [dataMedicalExamination, setDataMedicalExamination] = useState({});
+
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
-  const dataPrint = useSelector((state) => state.print.prescription.current)
-  console.log(dataPrint);
-
-
-
-  function formatDate(input) {
-    var datePart = input.match(/\d+/g),
-      year = datePart[0].substring(), // get only two digits
-      month = datePart[1], day = datePart[2];
-    return day + '/' + month + '/' + year;
+  const MaDL = useSelector((state) => state.print?.MaDL)
+  const getBooking = async () => {
+    const dataBooking = await getBookingWithMaDL(MaDL);
+    setDataBooking(dataBooking);
+    const medicalExamination = await getMedicalExaminationWithMaDL(dataBooking.MaDL);
+    setDataMedicalExamination(medicalExamination)
   }
 
+  useEffect(() => {
+    getBooking();
+  }, [])
+
+
+  function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
 
   return (
     <>
-      <button className="btn btn--green" onClick={handlePrint}> In hoá đơn thuốc</button>
-      <div className='print-medicalExamination' ref={componentRef}>
-        <div className='header'>
-          <div className='header--info'>
-            <h2>Bộ ý tế</h2>
-            <h2>Bệnh viện Hữu Nghị Việt Đức</h2>
-            <p >Điện thoại: 0328 290 432</p>
+      <button className="btn btn--green" onClick={handlePrint}><LocalPrintshopIcon />In phiếu khám</button>
+      <div className='print-medicalExamination print-medicalExamination--small' ref={componentRef}>
+        <HeaderPrint />
+        <h1 className='title'>PHIẾU KHÁM</h1>
+        <div className='content'>
+          <div className='nameMedical'>{dataMedicalExamination?.TenPK}</div>
+          <div className='room'>Phòng khám: {dataMedicalExamination?.MaPhong}</div>
+          <div className='code'>Mã Phiếu khám: <span>{dataMedicalExamination?.MaPK}</span></div>
+          <div className='user'>
+            <div className='name'>{dataBooking.User?.HoTen}</div>
+            <div className='user__info'>Mã BN: {dataBooking.User?.MaUser}</div>
+            <div className='user__info'>Tuổi: {getAge(dataBooking.User?.NgaySinh)}</div>
+            <div className='user__info'>Giới tính: {dataBooking.User?.GioiTinh ? "Nam" : "Nũ"}</div>
           </div>
-          <Logo />
-        </div>
-        <div className='info-medical'>
-          <p>Mã bệnh nhân: {dataPrint.dataDT?.MaUser}</p>
-          <p>Mã đơn thuốc: {dataPrint.dataDT?.MaDT}</p>
-        </div>
+          <div className='date'>Ngày khám: {(dataMedicalExamination?.NgayKham)} </div>
+          <div className='date'>Thời gian : {dataMedicalExamination.CaKham === 'Ca1' ? "08:00 - 11:00" : "13:00 - 17:00"} --- Thời gian khám: {dataMedicalExamination.ThoiGianKham} </div>
 
-        <h1 className='title'>ĐƠN THUỐC</h1>
-
-        <div className='user'>
-          <div className='info info--with50'>
-            <div className='info__title'>Họ tên :</div>
-            <div className='info__content'>{dataPrint.dataDT.User?.HoTen}</div>
-          </div>
-          <div className='info info--with25'>
-            <div className='info__title'>Ngày sinh :</div>
-            <div className='info__content'>{formatDate(dataPrint.dataDT.User?.NgaySinh)}</div>
-          </div>
-          <div className='info info--with25'>
-            <div className='info__title'>Giới tính :</div>
-            <div className='info__content'>{dataPrint.dataDT.User?.GioiTinh ? "Nam" : "Nữ"}</div>
-          </div>
-          <div className='info '>
-            <div className='info__title'>Địa chỉ :</div>
-            <div className='info__content'>{dataPrint.dataDT.User?.DiaChi}</div>
-          </div>
-          <div className='info '>
-            <div className='info__title'>Chuẩn đoán :</div>
-            <div className='info__content'>{dataPrint.dataDT?.TinhTrang}</div>
-          </div>
         </div>
-
-        <div className='list-medicine'>
-          <div className='list-medicine__title'>
-            <p>Thuốc điều trị</p>
-            <p>Số lượng</p>
-          </div>
-          {dataPrint.dataDTDetail?.map((item, index) => {
-            return (
-              <div className='wrap'>
-                <div className='stt'>{index + 1}</div>
-                <div className='medicine' key={item.id}>
-                  <div className='medicine__name'>{item.Medicine.TenThuoc}</div>
-                  <div className='medicine__count'>X {item.SoLuong}</div>
-                  <div className='medicine__unit'>{item.Medicine.DonVi}</div>
-                  <div className='medicine__desc'>{item.LieuLuong}</div>
-                </div>
-              </div>
-            )
-          })}
-          <div className='advice'>
-            <div className='advice__title'>Lời dặn bác sĩ :</div>
-            <div className='advice__content'>Đã tư vấn kỹ cho bệnh nhân về đơn thuốc và bệnh nhân đồng ý với sử dụng, khám lại sau {dataPrint.dataDTDetail[0]?.SoNgayUong} ngày</div>
-          </div>
-        </div>
-
-        <div className='singed'>
-          <div className='singed__date'>Hồ chí minh Ngày 23 tháng 6 năm 2022 </div>
-          <div className='singed__title'>Bác sĩ khám bệnh</div>
-          <div className='singed__content'></div>
-        </div>
-
-        <p className='bottom'></p>
       </div>
     </>
 

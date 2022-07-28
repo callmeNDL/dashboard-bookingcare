@@ -14,21 +14,35 @@ import NewPrescriptionDetail from './pages/new/NewPrescriptionDetail';
 import AppLayout from './layout/Layout';
 import NewShedule from './pages/new/NewShedule';
 import PrintMedicalEx from './components/print/PrintMedicalEx';
+import PrintPrescription from './components/print/PrintPrescription';
+import PrintMedicalTest from './components/print/PrintMedicalTest';
+import PrintExamination from './components/print/PrintMedicalExamination';
+import HomeDoctor from './pages/home/HomeDoctor';
+import PrintInvoice from './components/print/PrintInvoice';
+import PrintMedicalResult from './components/print/PrintMedicalResult';
 
 function App() {
-
   const { darkMode } = useContext(DarkModeContext);
-
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
-
       <BrowserRouter>
         <Routes>
           <Route path="/">
             <Route index element={<Login />} />
-            <Route path="home" element={<Home />} />
-            <Route path="style" element={<PrintMedicalEx />} />
+
+            <Route path="home">
+              <Route index element={<Home />} />
+              <Route path="doctor" element={<HomeDoctor />} />
+            </Route>
+
+            <Route path="print-medicalEx" element={<PrintMedicalEx />} />
+            <Route path="print-prescription" element={<PrintPrescription />} />
+            <Route path="print-medicalTest" element={<PrintMedicalTest />} />
+            <Route path="print-medicalExamination" element={<PrintExamination />} />
+            <Route path="print-invoice" element={<PrintInvoice />} />
+            <Route path="print-medicalResult" element={<PrintMedicalResult />} />
+
 
             <Route path="users">
               <Route index element={<List colum={userColumns} title="users" titleApi="user" />} />

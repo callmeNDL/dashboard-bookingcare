@@ -1,6 +1,5 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,16 +12,24 @@ import { getBooking } from '../../redux/bookingSlide';
 import { getMedicalExamination } from "../../redux/medicalExamination";
 import { getClinic } from "../../redux/clinicSlide";
 import AppLayout from "../../layout/Layout";
+import { addMaDL, printMedicalResultSuccess } from "../../redux/printSlide";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 
 const SingleMedicalExamination = ({ inputs, title }) => {
   const { medicalExaminationID } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const [id, setID] = useState('');
   const [data, setData] = useState('');
   const [inputData, setInputData] = useState();
+  const auth = useSelector((state) => state.auth.login.currentUser);
 
+  const dataMedicalExamination = useSelector((state) => state.medicalExamination.data);
+  let currentMedicalExamination = dataMedicalExamination.find((item) => item.id == `${medicalExaminationID}`);
+  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentMedicalExamination });
   const assignDepartment = async () => {
     const bookingResult = await dispatch(getBooking());
     const dataBooking = unwrapResult(bookingResult);
@@ -44,8 +51,6 @@ const SingleMedicalExamination = ({ inputs, title }) => {
       setInputData(inputs)
     })
   }
-
-
 
   const getData = async () => {
     if (medicalExaminationID) {
@@ -75,15 +80,23 @@ const SingleMedicalExamination = ({ inputs, title }) => {
     }
   };
 
+  const handlePrintMedicalEX = () => {
+    if (title === 'medicalExamination') {
+      dispatch(addMaDL(data.MaDL))
+      return navigate(`/print-medicalEx`)
+    }
+  }
+
+  const handlePrintMedicalResult = () => {
+    dispatch(printMedicalResultSuccess(currentMedicalExamination))
+    return navigate(`/print-medicalResult`)
+  }
+
   useEffect(() => {
     getData()
     assignDepartment();
   }, [])
 
-  const dataMedicalExamination = useSelector((state) => state.medicalExamination.data);
-  let currentMedicalExamination = dataMedicalExamination.find((item) => item.id == `${medicalExaminationID}`);
-  console.log(currentMedicalExamination);
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentMedicalExamination });
 
   return (
     <div className="single">
@@ -152,6 +165,21 @@ const SingleMedicalExamination = ({ inputs, title }) => {
               <button type="submit" className="btn-update">UPDATE</button>
             </form>
 
+            <div className="btn-box">
+              {
+                auth?.MaBS
+                  ? ""
+                  : <button
+                    className="btn btn--green"
+                    onClick={handlePrintMedicalEX}>
+                    <LocalPrintshopIcon className=" icon" />In phiếu khám
+                  </button>
+              }
+
+              {currentMedicalExamination.KetQua.length !== 0
+                ? <button className="btn btn--primary" onClick={handlePrintMedicalResult}> <ExitToAppIcon className=" icon" />In kết quả khám bệnh</button>
+                : ""}
+            </div>
             <ToastContainer
               position="top-right"
               autoClose={3000}

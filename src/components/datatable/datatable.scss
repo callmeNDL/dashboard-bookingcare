@@ -5,6 +5,36 @@
   &--with100 {
     width: 100%;
   }
+
+  &__select {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    .title {
+      font-size: 16px;
+      margin-right: 20px;
+    font-weight: bold;
+    }
+
+    .input {
+      font-size: 16px;
+      padding: 8px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.27);
+
+    }
+    
+
+    &__CaKham {
+      display: flex;
+    align-items: center;
+    margin-left: 50px;
+
+    .title-dropdown{
+      background-color: white;
+      padding: 0 5px;
+    }
+    }
+  }
   
   .datatableTitle{
     width: 100%;
@@ -77,12 +107,25 @@
       border-radius: 10px;
       font-weight: bold;
     }
-
     &--failure {
       padding: 10px 15px;
       background: crimson;
       border-radius: 10px;
       font-weight: bold;
+    }
+
+    &--waiting {
+      padding: 10px 15px;
+      background: #2196f3;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    &--cancel {
+      padding: 10px 15px;
+      background: #555555;
+      border-radius: 10px;
+      font-weight: bold;
+      color: white;
     }
   }
 

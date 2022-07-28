@@ -11,8 +11,9 @@ import { getUser } from '../../redux/userSlide';
 import { getBooking } from '../../redux/bookingSlide';
 import { getDoctor } from '../../redux/doctorSlide';
 import AppLayout from "../../layout/Layout";
-
-
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { printInvoiceSuccess } from "../../redux/printSlide";
 const SingleBooking = ({ inputs, title }) => {
   const { bookingID } = useParams();
   const navigate = useNavigate();
@@ -22,6 +23,14 @@ const SingleBooking = ({ inputs, title }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [inputData, setInputData] = useState([]);
 
+  //get user login 
+  const auth = useSelector((state) => state.auth.login.currentUser);
+
+  //
+  const dataBooking = useSelector((state) => state.booking.data);
+  let currentBooking = dataBooking.find((item) => item.id == bookingID);
+  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentBooking });
+  //
   const assignDepartment = async () => {
     const userResult = await dispatch(getUser());
     const dataUser = unwrapResult(userResult);
@@ -32,7 +41,7 @@ const SingleBooking = ({ inputs, title }) => {
     inputs.forEach(input => {
       if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
         input.data = dataUser;
-        const user = dataUser.find((item) => item.MaUser === currentBooking.MaUser);
+        const user = dataUser.find((item) => item.MaUser === currentBooking?.MaUser);
         setCurrentUser(user)
       };
       if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
@@ -75,10 +84,19 @@ const SingleBooking = ({ inputs, title }) => {
     assignDepartment();
   }, [])
 
-  const dataBooking = useSelector((state) => state.booking.data);
-  let currentBooking = dataBooking.find((item) => item.id == `${bookingID}`);
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentBooking });
+  const handleNavigateMedical = () => {
+    console.log(currentBooking);
+    if (currentBooking.MedicalExamination && currentBooking.MedicalExamination?.id) {
+      navigate(`/medicalExaminations/${currentBooking.MedicalExamination?.id}`)
+    } else {
+      toast.info("Đặt lịch chưa có phiếu khám! Cập nhật trạng thái phiếu khám")
+    }
+  }
 
+  const handlePrintInvoice = () => {
+    dispatch(printInvoiceSuccess(currentBooking));
+    navigate('/print-invoice')
+  }
 
   return (
     <div className="single">
@@ -165,25 +183,27 @@ const SingleBooking = ({ inputs, title }) => {
               }
               <button type="submit" className="btn-update">UPDATE</button>
             </form>
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-            <div className="btn-box">
-              <Link to={`/users/${currentUser?.id}`} className="link">
-                <button className="btn"> <InfoIcon className=" icon" /> Chi tiết bệnh nhân</button>
-              </Link>
-            </div>
-          </div>
 
+          </div>
         </div>
+        <div className="btn-box btn-box--booking">
+          <Link to={`/users/${currentUser?.id}`} className="link">
+            <button className="btn"> <InfoIcon className=" icon" /> Chi tiết bệnh nhân</button>
+          </Link>
+          <button className="btn btn--green" onClick={handleNavigateMedical}> <MedicalInformationIcon className=" icon" /> Xem phiếu khám</button>
+          <button className="btn btn--secondary" onClick={handlePrintInvoice}> <AttachMoneyIcon className=" icon" />In hoá đơn</button>
+        </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </AppLayout>
     </div>
   );

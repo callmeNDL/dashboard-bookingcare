@@ -8,6 +8,20 @@
       display: flex;
       padding: 20px;
       gap: 20px;
+      flex-direction: column;
+
+      .filter__box  {
+        .title {
+          font-size: 16px;
+          margin-right: 20px;
+          font-weight: bold;
+        }
+        .input{
+          font-size: 16px;
+          padding: 8px 14px;
+          border: 1px solid rgba(0, 0, 0, 0.27);
+        }
+      }
     }
 
     .charts {
@@ -24,6 +38,18 @@
         font-weight: 500;
         color: gray;
         margin-bottom: 15px;
+      }
+    }
+
+    .home-doctor {
+      &__title {
+          font-size:24px;
+          display: flex;
+          justify-content: center;
+          text-transform: uppercase;
+          margin: 20px 0 40px;
+          font-weight: bold;
+          color: rgb(0, 75, 75);
       }
     }
   }

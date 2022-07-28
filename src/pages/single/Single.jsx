@@ -11,7 +11,24 @@ import { getUser } from '../../redux/userSlide';
 import { getRole } from '../../redux/roleSlide';
 import AppLayout from "../../layout/Layout";
 import { updateUser } from "../../apiServices/userServices";
-
+import { DataGrid } from '@mui/x-data-grid';
+import { getBookingWithBN } from "../../apiServices/bookingServices";
+import { medicalDetailColumns } from "../../datatablesource";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  minWidth: 500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const Single = ({ inputs, title, img }) => {
   const { userID } = useParams();
@@ -22,6 +39,21 @@ const Single = ({ inputs, title, img }) => {
   const [goitinh, setGioiTinh] = useState(false);
   const [update, setUpdate] = useState(false);
   const [inputData, setInputData] = useState([]);
+  const [historyMedical, setHistoryMedical] = useState([]);
+
+  //state modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+  //get user login 
+  const auth = useSelector((state) => state.auth.login.currentUser);
+
+
+  const dataUser = useSelector((state) => state.user.data);
+  let currentUser = dataUser.find((item) => item.id == `${userID}`)
+  const { register, handleSubmit, errors } = useForm({ defaultValues: currentUser });
 
   const assignDepartment = async () => {
     const roleResult = await dispatch(getRole());
@@ -72,23 +104,80 @@ const Single = ({ inputs, title, img }) => {
     }
   };
 
+  const getDataBooking = async () => {
+    const date = new Date();
+    console.log(currentUser);
+    const res = await getBookingWithBN(currentUser?.MaUser);
+    const medicalHistory = res.filter((item) => item.MedicalExamination?.NgayKham < date.toISOString());
+    // console.log(medicalHistory);
+    setHistoryMedical(medicalHistory)
+  }
+
+
   useEffect(() => {
     assignDepartment();
     getData();
+    getDataBooking();
   }, [])
 
-
-  const dataUser = useSelector((state) => state.user.data);
-  let currentUser = dataUser.find((item) => item.id == `${userID}`)
-  const { register, handleSubmit, errors } = useForm({ defaultValues: currentUser });
-
+  const actionColum = [
+    {
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className='cellAction'>
+            <div className='btn btn--view' onClick={handleOpen}>Xem chi tiết</div>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  {`Chi tiết phiếu khám ${params.row.MedicalExamination.MaPK}`}
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <div className="medical-wrap">
+                    <h2>{params.row.MedicalExamination.TenPK}</h2>
+                    <div className="medical-info medical-info--user">
+                      <p className="title">Họ Tên Bệnh nhân: </p>
+                      <div className="text"> {params.row.User.HoTen} </div>
+                    </div>
+                    <div className="medical-info medical-info--desc">
+                      <p className="title"> Tình trạng bệnh nhân: </p>
+                      <div className="text"> {params.row.TinhTrangBN} </div>
+                    </div>
+                    <div className="medical-info medical-info--doctor">
+                      <p className="title"> Bác sĩ khám: </p>
+                      <div className="text"> {params.row.Doctor?.HoTen} </div>
+                    </div>
+                    <div className="medical-info medical-info--medical">
+                      <p className="title"> Thời gian khám: </p>
+                      <div className="text">{params.row.MedicalExamination?.ThoiGianKham} - {params.row.MedicalExamination?.NgayKham}</div>
+                    </div>
+                    <div className="medical-info medical-info--result">
+                      <p className="title"> Kết quả khám bệnh: </p>
+                      <div className="text">{params.row.MedicalExamination?.KetQua}</div>
+                    </div>
+                  </div>
+                </Typography>
+              </Box>
+            </Modal>
+          </div>
+        )
+      }
+    }
+  ]
   return (
     <div className="single">
       <AppLayout>
         <div className="top">
           <h1>{`Edit ${title}`}</h1>
         </div>
-        <div className="bottom">
+        <div className={auth?.MaBS ? "bottom bottom--disable" : "bottom"}>
           {!file
             ? <div className="left">
               <img
@@ -172,7 +261,7 @@ const Single = ({ inputs, title, img }) => {
                   }
                 })
               }
-              <button type="submit" className={update ? "btn-update--loading" : "btn-update"}>UPDATE</button>
+              {auth?.MaBS ? "" : <button type="submit" className={update ? "btn-update--loading" : "btn-update"}>UPDATE</button>}
             </form>
             <ToastContainer
               position="top-right"
@@ -187,6 +276,27 @@ const Single = ({ inputs, title, img }) => {
             />
           </div>
         </div>
+        <div className="top">
+          <h1>Lịch sử khám bệnh</h1>
+        </div>
+        <div className="bottom">
+          <div style={{ height: 430, width: '100%' }}>
+            <DataGrid
+              className='dataGrid'
+              rows={historyMedical}
+              columns={medicalDetailColumns.concat(actionColum)}
+              pageSize={6}
+              rowsPerPageOptions={[6]}
+              sx={{
+                boxShadow: 3,
+                border: 2,
+                borderColor: '#018080',
+                '& .MuiDataGrid-cell:hover': {
+                  color: '#018080',
+                },
+              }}
+            />
+          </div></div>
       </AppLayout>
     </div>
   );

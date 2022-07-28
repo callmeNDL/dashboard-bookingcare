@@ -1,10 +1,8 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +10,9 @@ import { getMedicalExamination } from '../../redux/medicalExamination';
 import { getMedicalTest } from '../../redux/medicalTest';
 import { getDoctor } from '../../redux/doctorSlide';
 import AppLayout from "../../layout/Layout";
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import { printMedicalEXStart, printMedicalEXSuccess } from "../../redux/printSlide";
+import { getBookingWithMaDL } from "../../apiServices/bookingServices";
 
 
 const SingleMedicalTest = ({ inputs, title }) => {
@@ -69,6 +70,24 @@ const SingleMedicalTest = ({ inputs, title }) => {
     }
   };
 
+  const handlePrintMedicalEX = async () => {
+    let dataPrint = {
+      data: data,
+      dataBooking: null
+    }
+    dispatch(printMedicalEXStart())
+    if (data.TrangThai === 'confirmed') {
+      const dataBooking = await getBookingWithMaDL(data.MedicalExamination?.MaDL)
+      dataPrint.dataBooking = dataBooking;
+      dispatch(printMedicalEXSuccess(dataPrint))
+      navigate('/print-medicalTest')
+    } else {
+      toast.error(`Trạng thái ${data.TrangThai} không thể in`)
+      // dispatch(printPrescriptionFailed())
+    }
+  }
+
+
   useEffect(() => {
     getData()
     assignDepartment();
@@ -82,7 +101,7 @@ const SingleMedicalTest = ({ inputs, title }) => {
     <div className="single">
       <AppLayout>
         <div className="top">
-          <h1>{`Edit ${title}`}</h1>
+          <h1>{`Chi tiết phiếu xét nghiệm`}</h1>
         </div>
         <div className="bottom">
           <div className="right">
@@ -143,6 +162,9 @@ const SingleMedicalTest = ({ inputs, title }) => {
               }
               <button type="submit" className="btn-update">UPDATE</button>
             </form>
+            <div className="btn-box">
+              <button className="btn btn--green" onClick={handlePrintMedicalEX}> <LocalPrintshopIcon className=" icon" />In phiếu xét nghiệm</button>
+            </div>
             <ToastContainer
               position="top-right"
               autoClose={3000}

@@ -5,7 +5,13 @@ export const userInputs = [
     key: "HoTen",
     type: "text",
     placeholder: "john_doe",
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 30,
+        message: "Tối đa 30 ký tự"
+      },
+    }
   },
   {
     id: 2,
@@ -26,9 +32,13 @@ export const userInputs = [
         value: 9,
         message: "CMND có tối thiểu 9 ký tự"
       },
+      maxLength: {
+        value: 12,
+        message: "CCCD có tối đa 12 ký tự"
+      },
       pattern: {
         value: /^[0-9]{9}/,
-        message: "CMND chỉ chứa số"
+        message: "CMND chỉ chứa số (chỉ chứa số)"
       }
     }
   },
@@ -43,6 +53,14 @@ export const userInputs = [
       minLength: {
         value: 6,
         message: "Tối thiểu 6 ký tự"
+      },
+      maxLength: {
+        value: 30,
+        message: "Tối đa 30 ký tự"
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9]+$/,
+        message: "Không chứa ký tự đặt biệt"
       }
     }
   },
@@ -102,8 +120,16 @@ export const userInputs = [
     validation: {
       required: "Không để trống.",
       minLength: {
-        value: 6,
-        message: "Tối thiểu 6 ký tự"
+        value: 8,
+        message: "Tối thiểu 8 ký tự"
+      },
+      maxLength: {
+        value: 8,
+        message: "Tối đa 8 ký tự"
+      },
+      pattern: {
+        value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+        message: "Mật khẩu phải gồm chữ thường, in hoa, sô"
       }
     }
   },
@@ -159,7 +185,13 @@ export const doctorInputs = [
     key: "HoTen",
     type: "text",
     placeholder: "john_doe",
-    validation: { required: "Không được để trống" }
+    validation: {
+      required: "Không được để trống",
+      maxLength: {
+        value: 30,
+        message: "Tối đa 30 ký tự"
+      },
+    }
   },
   {
     id: 4,
@@ -173,9 +205,13 @@ export const doctorInputs = [
         value: 9,
         message: "CMND có tối thiểu 9 ký tự"
       },
+      maxLength: {
+        value: 12,
+        message: "CCCD có tối đa 12 ký tự"
+      },
       pattern: {
         value: /^[0-9]{9}/,
-        message: "CMND chỉ chứa số"
+        message: "CMND chỉ chứa số (chỉ chứa số)"
       }
     }
   },
@@ -197,6 +233,10 @@ export const doctorInputs = [
       minLength: {
         value: 6,
         message: "Tối thiểu 6 ký tự"
+      },
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
       }
     }
   },
@@ -232,7 +272,11 @@ export const doctorInputs = [
     placeholder: "Tai mũi họng",
     validation: {
       required: "Không để trống.",
-    }
+    },
+    maxLength: {
+      value: 50,
+      message: "Tối đa 50 ký tự"
+    },
   },
   {
     id: 10,
@@ -245,7 +289,11 @@ export const doctorInputs = [
       minLength: {
         value: 6,
         message: "Tối thiểu 6 ký tự"
-      }
+      },
+      maxLength: {
+        value: 30,
+        message: "Tối đa 30 ký tự"
+      },
     }
   },
   {
@@ -256,8 +304,16 @@ export const doctorInputs = [
     validation: {
       required: "Không để trống.",
       minLength: {
-        value: 6,
-        message: "Tối thiểu 6 ký tự"
+        value: 8,
+        message: "Tối thiểu 8 ký tự"
+      },
+      maxLength: {
+        value: 8,
+        message: "Tối đa 8 ký tự"
+      },
+      pattern: {
+        value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+        message: "Mật khẩu phải gồm chữ thường, in hoa, sô"
       }
     }
   },
@@ -293,6 +349,10 @@ export const departmentInputs = [
     placeholder: "Khoa ...",
     validation: {
       required: "Không được để trống",
+      maxLength: {
+        value: 30,
+        message: "Tối đa 30 ký tự"
+      },
     }
   },
   {
@@ -303,6 +363,10 @@ export const departmentInputs = [
     placeholder: "...",
     validation: {
       required: "Không được để trống",
+      maxLength: {
+        value: 255,
+        message: "Tối đa 255 ký tự"
+      },
     }
   },
 ];
@@ -401,7 +465,7 @@ export const bookingInputs = [
   },
   {
     id: 4,
-    label: "Thời gian",
+    label: "Thời gian yêu cầu",
     key: "ThoiGian",
     type: "time",
     validation: {
@@ -413,6 +477,16 @@ export const bookingInputs = [
   },
   {
     id: 5,
+    label: "Ca Khám",
+    key: "CaKham",
+    type: "select",
+    data: [{ key: 'Ca1', value: "Ca1" }, { key: 'Ca2', value: "Ca2" }],
+    validation: {
+      required: "Không được để trống"
+    }
+  },
+  {
+    id: 6,
     label: "NGày dặt lịch",
     key: "NgayDL",
     type: "date",
@@ -424,7 +498,7 @@ export const bookingInputs = [
     }
   },
   {
-    id: 6,
+    id: 7,
     label: "Tình trạng bệnh nhân",
     key: "TinhTrangBN",
     type: "text",
@@ -437,11 +511,11 @@ export const bookingInputs = [
     }
   },
   {
-    id: 7,
+    id: 8,
     label: "Trạng thái",
     key: "TrangThai",
     type: "select",
-    data: [{ key: 0, value: "new" }, { key: 1, value: "confirmed" }, { key: 2, value: "failure" }],
+    data: [{ key: 0, value: "new" }, { key: 1, value: "confirmed" }, { key: 2, value: "waiting" }, { key: 3, value: "finish" }, { key: 4, value: "cancel" }, { key: 4, value: "failure" }],
     validation: {
       required: "Không được để trống", maxLength: {
         value: 255,
@@ -513,6 +587,15 @@ export const medicalExaminationInputs = [
   },
   {
     id: 6,
+    label: "Thời gian",
+    key: "ThoiGianKham",
+    type: "time",
+    validation: {
+      required: "Không được để trống",
+    }
+  },
+  {
+    id: 7,
     label: "TenPK",
     key: "TenPK",
     type: "text",
@@ -526,7 +609,7 @@ export const medicalExaminationInputs = [
     }
   },
   {
-    id: 7,
+    id: 8,
     label: "Kết quả khám",
     key: "KetQua",
     type: "text",
@@ -738,14 +821,20 @@ export const prescriptionInputs = [
     placeholder: "1001",
     validation: {
       required: "Không được để trống",
-      maxLength: {
-        value: 255,
-        message: "Tối đa 255 ký tự"
-      }
     }
   },
   {
     id: 2,
+    label: "Thuộc phiếu khám",
+    key: "MaPK",
+    type: "select",
+    data: [],
+    validation: {
+      required: "Không được để trống",
+    }
+  },
+  {
+    id: 3,
     label: "Mã bác sĩ",
     key: "MaBS",
     type: "select",
@@ -755,7 +844,7 @@ export const prescriptionInputs = [
     }
   },
   {
-    id: 3,
+    id: 4,
     label: "Mã Bệnh nhân",
     key: "MaUser",
     type: "select",
@@ -765,7 +854,7 @@ export const prescriptionInputs = [
     }
   },
   {
-    id: 4,
+    id: 5,
     label: "Tình trạng",
     key: "TinhTrang",
     type: "text",
@@ -779,7 +868,7 @@ export const prescriptionInputs = [
     }
   },
   {
-    id: 5,
+    id: 6,
     label: "Lời dặng của bác sĩ",
     key: "LoiDanBS",
     type: "text",
@@ -793,7 +882,7 @@ export const prescriptionInputs = [
     }
   },
   {
-    id: 6,
+    id: 7,
     label: "Ngày cấp đơn thuốc",
     key: "NgayCap",
     type: "date",
@@ -802,7 +891,7 @@ export const prescriptionInputs = [
     }
   },
   {
-    id: 7,
+    id: 8,
     label: "Trạng thái",
     key: "TrangThai",
     type: "select",
@@ -812,7 +901,7 @@ export const prescriptionInputs = [
     }
   },
   {
-    id: 8,
+    id: 9,
     label: "Tổng tiền thuốc",
     key: "TongTienThuoc",
     type: "number",

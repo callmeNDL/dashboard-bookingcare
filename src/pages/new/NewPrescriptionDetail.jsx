@@ -45,6 +45,7 @@ const NewPrescriptionDetail = ({ inputs }) => {
       console.log(response);
       if (response.errCode === 0) {
         fetchPresciptDetail();
+        resetFrom();
         toast.success(response.errMessage)
         reset()
       } else {
@@ -77,6 +78,7 @@ const NewPrescriptionDetail = ({ inputs }) => {
       LieuLuong: "",
       SoLuong: "",
       SoNgayUong: "",
+      TongTienThuoc: null,
     });
     setAction("CREATE")
   }

@@ -19,8 +19,7 @@ import { getTimetable } from '../../redux/timetableSlide';
 import { getClinic } from '../../redux/clinicSlide';
 import { getBooking } from '../../redux/bookingSlide';
 import { getMedicalExamination } from '../../redux/medicalExamination';
-import AppLayout from "../../layout/Layout";
-
+import { addMaDL, addMedicalEX } from "../../redux/printSlide";
 
 
 const New = ({ inputs, title, img, link }) => {
@@ -164,6 +163,10 @@ const New = ({ inputs, title, img, link }) => {
 
       const userResult = await dispatch(getUser());
       const dataUser = unwrapResult(userResult);
+
+      const medicalExaminationResult = await dispatch(getMedicalExamination());
+      const dataMedicalExamination = unwrapResult(medicalExaminationResult);
+
       inputs.forEach(input => {
         if (input.key === "MaBS" && Object.keys(dataDoctor).length !== 0) {
           input.data = dataDoctor;
@@ -171,6 +174,9 @@ const New = ({ inputs, title, img, link }) => {
 
         if (input.key === "MaUser" && Object.keys(dataUser).length !== 0) {
           input.data = dataUser;
+        };
+        if (input.key === "MaPK" && Object.keys(dataMedicalExamination).length !== 0) {
+          input.data = dataMedicalExamination;
         };
         setInputData(inputs)
       })
@@ -217,6 +223,7 @@ const New = ({ inputs, title, img, link }) => {
           console.log(response);
           if (response.data.errCode === 1) {
             toast.error(response.data.errMessage)
+
           }
           else {
             return navigate(`/${title}s`)
@@ -230,6 +237,7 @@ const New = ({ inputs, title, img, link }) => {
           } else {
             return navigate(`/${title}s`)
           }
+          console.log(response);
         } catch (error) {
           toast.error(error.data)
         }
@@ -324,7 +332,7 @@ const New = ({ inputs, title, img, link }) => {
                         <label>{input.label}</label>
                         <select name={input.label} {...register(`${input.key}`)}>
                           {input.data.map((option) => {
-                            return <option value={option.CaKham} key={option.CaKham}>{`${option.CaKham} - ${option.ThoiGian}`}</option>
+                            return <option value={option.key} key={option.key}>{`${option.key}`}</option>
                           })}
                         </select>
                         {errors[`${input.key}`]?.message && <p className="formInput--error">{errors[`${input.key}`]?.message}</p>}
