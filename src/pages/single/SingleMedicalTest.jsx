@@ -13,6 +13,7 @@ import AppLayout from "../../layout/Layout";
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { printMedicalEXStart, printMedicalEXSuccess } from "../../redux/printSlide";
 import { getBookingWithMaDL } from "../../apiServices/bookingServices";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 
 
 const SingleMedicalTest = ({ inputs, title }) => {
@@ -22,6 +23,8 @@ const SingleMedicalTest = ({ inputs, title }) => {
 
   const [id, setID] = useState('');
   const [data, setData] = useState('');
+  const [file, setFile] = useState("");
+  const [update, setUpdate] = useState(false);
 
   const assignDepartment = async () => {
 
@@ -58,14 +61,32 @@ const SingleMedicalTest = ({ inputs, title }) => {
 
   const onSubmit = async (data) => {
     try {
+      setUpdate(true);
+      let urlHinhAnh = '';
+      if (file.length !== 0) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "rl8qs3p5");
+        await axios.post("https://api.cloudinary.com/v1_1/nguyen-duc-long/image/upload", formData).then((response) => {
+          urlHinhAnh = response.data.secure_url;
+        });
+      }
+      if (urlHinhAnh.length !== 0) {
+        data.HinhAnhXN = urlHinhAnh;
+      }
       const response = await axios.put(`http://localhost:8001/api/${title}/update-${title}`, data);
       if (response.data.errCode === '1') {
+        setUpdate(false);
         toast.error(response.data.errMessage)
       } else {
         toast.error(response.data.errMessage)
+        setUpdate(false);
+
         return navigate(`/${title}s`)
       }
     } catch (error) {
+      setUpdate(false);
+
       toast.error("No medicalTest update")
     }
   };
@@ -106,6 +127,7 @@ const SingleMedicalTest = ({ inputs, title }) => {
         <div className="bottom">
           <div className="right">
             <form onSubmit={handleSubmit(onSubmit)}>
+
               {
                 inputs.map((input) => {
                   if (input.type === "select") {
@@ -160,7 +182,7 @@ const SingleMedicalTest = ({ inputs, title }) => {
                   </div>
                 })
               }
-              <button type="submit" className="btn-update">UPDATE</button>
+              <button type="submit" className={update ? "btn-update--loading" : "btn-update"}>UPDATE</button>
             </form>
             <div className="btn-box">
               <button className="btn btn--green" onClick={handlePrintMedicalEX}> <LocalPrintshopIcon className=" icon" />In phiếu xét nghiệm</button>
@@ -177,6 +199,40 @@ const SingleMedicalTest = ({ inputs, title }) => {
               pauseOnHover
             />
           </div>
+        </div>
+        <div className="bottom">
+          <div className="formInput">
+            <label htmlFor="file">
+              Image: <DriveFolderUploadOutlinedIcon className="icon" />
+            </label>
+            <input
+              type="file"
+              id="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              style={{ display: "none" }}
+            />
+          </div>
+          {!file
+            ? <div className="">
+              <img
+                src={
+                  currentMedicalTest?.HinhAnhXN
+                    ? currentMedicalTest?.HinhAnhXN
+                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt="avatar"
+              />
+            </div>
+            : <div className="">
+              <img
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt="avatar"
+              />
+            </div>}
         </div>
       </AppLayout>
     </div>

@@ -19,6 +19,7 @@ function NewShedule({ inputs }) {
   const [inputData, setInputData] = useState({});
   const [dataSchedule, setDataSchedule] = useState({});
   const [action, setAction] = useState("CREATE");
+  const loginRole = useSelector((state) => state.auth.login.currentUser);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -108,7 +109,7 @@ function NewShedule({ inputs }) {
     }
   }
 
-
+  console.log(loginRole);
   return (
     <div className="single">
       <AppLayout>
@@ -117,7 +118,7 @@ function NewShedule({ inputs }) {
         </div>
         <div className="bottom">
           <div className="right">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className={loginRole.MaBS ? "disable-wrap" : ""}>
               {
                 inputs.map((input) => {
                   if (input.type === "select") {
@@ -194,7 +195,7 @@ function NewShedule({ inputs }) {
                   <DataGrid
                     className='dataGrid'
                     rows={dataSchedule}
-                    columns={scheduleColumns.concat(actionColum)}
+                    columns={loginRole.MaBS ? scheduleColumns : scheduleColumns.concat(actionColum)}
                     pageSize={6}
                     rowsPerPageOptions={[6]}
                     sx={{

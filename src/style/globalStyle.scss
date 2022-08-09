@@ -15,6 +15,10 @@
     margin-right: 5px;
   }
 
+  &--disable {
+    display: none !important;
+  }
+
   &--green {
   background-color: #459e68	;
   }
@@ -63,3 +67,4 @@
     .text {font-size: 16px;}
   }
 }
+

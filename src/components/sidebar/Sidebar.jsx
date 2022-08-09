@@ -36,7 +36,7 @@ const Sidebar = () => {
     }
   }
 
-  const loginRole = useSelector((state) => state.auth.login.currentUser)
+  const loginRole = useSelector((state) => state.auth.login.currentUser);
   console.log(loginRole);
   return (
     <div className='sidebar'>
@@ -91,10 +91,12 @@ const Sidebar = () => {
             </Link>
 
             <p className='title'> USER</p>
-            <li>
-              <AccountCircleOutlinedIcon className="icon" />
-              <span>Thông tin</span>
-            </li>
+            <Link to={`/doctors/${loginRole.id}`} style={{ textDecoration: "none" }}>
+              <li>
+                <AccountCircleOutlinedIcon className="icon" />
+                <span>Thông tin</span>
+              </li>
+            </Link>
             <li onClick={handleLogout} >
               <ExitToAppIcon className="icon" />
               <span>Đăng xuất</span>
@@ -188,10 +190,12 @@ const Sidebar = () => {
               </li>
             </Link>
             <p className='title'> USER</p>
-            <li>
-              <AccountCircleOutlinedIcon className="icon" />
-              <span>Thông tin</span>
-            </li>
+            <Link to={loginRole.MaBS ? `/doctors/${loginRole.id}` : `/users/${loginRole.id}`} style={{ textDecoration: "none" }}>
+              <li>
+                <AccountCircleOutlinedIcon className="icon" />
+                <span>Thông tin</span>
+              </li>
+            </Link>
             <li onClick={handleLogout} >
               <ExitToAppIcon className="icon" />
               <span>Đăng xuất</span>

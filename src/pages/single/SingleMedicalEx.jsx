@@ -175,8 +175,7 @@ const SingleMedicalExamination = ({ inputs, title }) => {
                     <LocalPrintshopIcon className=" icon" />In phiếu khám
                   </button>
               }
-
-              {currentMedicalExamination.KetQua.length !== 0
+              {currentMedicalExamination?.KetQua.length !== 0
                 ? <button className="btn btn--primary" onClick={handlePrintMedicalResult}> <ExitToAppIcon className=" icon" />In kết quả khám bệnh</button>
                 : ""}
             </div>
@@ -193,8 +192,8 @@ const SingleMedicalExamination = ({ inputs, title }) => {
             />
           </div>
         </div>
-      </AppLayout>
-    </div>
+      </AppLayout >
+    </div >
   );
 };
 

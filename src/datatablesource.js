@@ -107,13 +107,20 @@ export const scheduleColumns = [
   {
     field: "MaPhong",
     headerName: "MaPhong",
-    width: 100,
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          {params.row.MaPhong}-{params.row.Clinic?.TenPhongKham}
+        </div>
+      );
+    },
 
   },
   {
     field: "CaKham",
     headerName: "CaKham",
-    width: 200,
+    width: 100,
   },
   {
     field: "NgayKham",
@@ -179,11 +186,6 @@ export const bookingColumns = [
   {
     field: "ThoiGian",
     headerName: "ThoiGianChon",
-    width: 120,
-  },
-  {
-    field: "ThoiGianDuKien",
-    headerName: "ThoiGianDuKien",
     width: 120,
   },
   {

@@ -565,12 +565,9 @@ export const medicalExaminationInputs = [
     label: "Ca Khám",
     key: "CaKham",
     type: "select",
-    data: [],
+    data: [{ key: 'Ca1', value: "Ca1" }, { key: 'Ca2', value: "Ca2" }],
     validation: {
-      required: "Không được để trống", maxLength: {
-        value: 255,
-        message: "Tối đa 255 ký tự"
-      },
+      required: "Không được để trống"
     }
   },
   {

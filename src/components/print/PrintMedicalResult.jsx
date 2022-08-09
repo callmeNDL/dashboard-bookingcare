@@ -24,13 +24,6 @@ function PrintMedicalResult() {
     const res = await getBookingWithMaDL(dataPrint.Booking.MaDL)
     setBooking(res)
   }
-  function getFormattedDate(a) {
-    var arr = a.split("-");
-    var year = arr[0];
-    var month = arr[1];
-    var day = arr[2];
-    return month + '/' + day + '/' + year;
-  }
 
   useEffect(() => {
     getDataBooking()
@@ -63,7 +56,7 @@ function PrintMedicalResult() {
           <br />
           <div className='info info--with25'>
             <div className='info__title'>Ngày sinh :</div>
-            <div className='info__content'>{getFormattedDate(booking.User?.NgaySinh)}</div>
+            <div className='info__content'>{booking.User?.NgaySinh}</div>
           </div>
           <div className='info info--with25'>
             <div className='info__title'>Giới tính :</div>
@@ -80,11 +73,11 @@ function PrintMedicalResult() {
           </div>
           <div className='info info--with50'>
             <div className='info__title'>Ngày khám :</div>
-            <div className='info__content'>{getFormattedDate(dataPrint?.NgayKham)}</div>
+            <div className='info__content'>{dataPrint?.NgayKham}</div>
           </div>
           <div className='info info--with50'>
             <div className='info__title'>Ngày hoàng hành :</div>
-            <div className='info__content'>{getFormattedDate(dataPrint?.NgayKham)}</div>
+            <div className='info__content'>{dataPrint?.NgayKham}</div>
           </div>
         </div>
 

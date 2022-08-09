@@ -8,6 +8,11 @@ const printSlide = createSlice({
       loading: false,
       error: false
     },
+    invoicePrescription: {
+      current: null,
+      loading: false,
+      error: false
+    },
     medicalExamination: {
       current: null,
       loading: false,
@@ -37,6 +42,18 @@ const printSlide = createSlice({
     printPrescriptionFailed: (state) => {
       state.prescription.loading = false;
       state.prescription.error = true
+    },
+    printInvoicePrescriptionStart: (state) => {
+      state.invoicePrescription.loading = true;
+    },
+    printInvoicePrescriptionSuccess: (state, action) => {
+      state.invoicePrescription.loading = false;
+      state.invoicePrescription.current = action.payload;
+      state.invoicePrescription.error = false
+    },
+    printInvoicePrescriptionFailed: (state) => {
+      state.invoicePrescription.loading = false;
+      state.invoicePrescription.error = true
     },
     printMedicalEXStart: (state) => {
       state.medicalExamination.loading = true;
@@ -84,6 +101,9 @@ const printSlide = createSlice({
 })
 
 export const {
+  printInvoicePrescriptionStart,
+  printInvoicePrescriptionFailed,
+  printInvoicePrescriptionSuccess,
   printPrescriptionStart,
   printPrescriptionFailed,
   printPrescriptionSuccess,

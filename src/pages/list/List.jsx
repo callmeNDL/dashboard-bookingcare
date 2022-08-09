@@ -61,10 +61,13 @@ const List = (props) => {
     if (props.title === "bookings") {
       if (loginRole.MaBS && loginRole.MaBS.length !== 0) {
         const bookingWithDoctor = await getBookingWithBS(loginRole.MaBS);
+        await dispatch(getMedicalExamination());
+
         setData(bookingWithDoctor)
       }
       else {
         let actionResult = await dispatch(getBooking());
+        await dispatch(getMedicalExamination());
         const dataResult = unwrapResult(actionResult);
         setData(dataResult)
       }
@@ -84,6 +87,8 @@ const List = (props) => {
       }
     }
     if (props.title === "medicalTests") {
+      await dispatch(getUser());
+      await dispatch(getDoctor());
       if (loginRole.MaBS && loginRole.MaBS.length !== 0) {
         let actionResult = await dispatch(getMedicalTest());
         const dataResult = unwrapResult(actionResult);

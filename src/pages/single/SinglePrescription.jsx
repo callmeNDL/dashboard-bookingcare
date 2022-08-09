@@ -13,9 +13,9 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { useNavigate, useParams, Link } from "react-router-dom";
 import AppLayout from "../../layout/Layout";
 import { getDTDetail } from "../../apiServices/presDetailServices";
-import { printPrescriptionFailed, printPrescriptionStart, printPrescriptionSuccess } from "../../redux/printSlide";
+import { printInvoicePrescriptionFailed, printInvoicePrescriptionStart, printInvoicePrescriptionSuccess, printPrescriptionFailed, printPrescriptionStart, printPrescriptionSuccess } from "../../redux/printSlide";
 import { getMedicalExamination } from "../../redux/medicalExamination";
-
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const SinglePrescription = ({ inputs, title }) => {
   const { prescriptionID } = useParams();
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ const SinglePrescription = ({ inputs, title }) => {
   const [id, setID] = useState('');
   const [data, setData] = useState('');
   const [inputData, setInputData] = useState();
+  const auth = useSelector((state) => state.auth.login.currentUser);
 
 
 
@@ -93,6 +94,23 @@ const SinglePrescription = ({ inputs, title }) => {
       dispatch(printPrescriptionFailed())
     }
   }
+  const handlePrintPayPrescription = async () => {
+    if (currentPrescription.TrangThai !== "confirmed") {
+      return toast.error("Trạng thái để in hoá đơn thuốc là confirmed")
+    }
+    dispatch(printInvoicePrescriptionStart())
+    const dataPrint = {
+      dataDTDetail: await getDTDetail(data.MaDT, dispatch),
+      dataDT: data
+    }
+    if (dataPrint) {
+      console.log(dataPrint);
+      dispatch(printInvoicePrescriptionSuccess(dataPrint));
+      navigate('/print-invoicePrescription')
+    } else {
+      dispatch(printInvoicePrescriptionFailed())
+    }
+  }
 
   useEffect(() => {
     getData()
@@ -102,7 +120,6 @@ const SinglePrescription = ({ inputs, title }) => {
 
   const dataPrescription = useSelector((state) => state.prescription.data);
   let currentPrescription = dataPrescription.find((item) => item.id == `${prescriptionID}`);
-  console.log(currentPrescription);
   // const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentPrescription });
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: currentPrescription });
 
@@ -198,14 +215,16 @@ const SinglePrescription = ({ inputs, title }) => {
               <Link to={`/prescriptionDetails/detail/${data?.MaDT}`} className="link">
                 <button className="btn"> <InfoIcon className=" icon" /> Chi tiết đơn thuốc</button>
               </Link>
-              <button className="btn btn--green" onClick={handlePrintPrescription}> <LocalPrintshopIcon className=" icon" />In hoá đơn thuốc</button>
+              <button className="btn btn--green" onClick={handlePrintPrescription}> <LocalPrintshopIcon className=" icon" />In đơn thuốc</button>
+
+              <button className={auth.MaBS ? "btn btn--disable" : "btn btn--secondary"} onClick={handlePrintPayPrescription}> <AttachMoneyIcon className=" icon" />In hoá đơn thuốc</button>
 
             </div>
           </div>
 
         </div>
-      </AppLayout>
-    </div>
+      </AppLayout >
+    </div >
   );
 };
 

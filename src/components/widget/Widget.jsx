@@ -46,11 +46,11 @@ const Widget = ({ type, amount, link }) => {
         ),
       };
       break;
-    case "order":
+    case "doctor":
       data = {
-        title: "ORDERS",
+        title: "DOCTORS",
         isMoney: false,
-        link: "View all orders",
+        link: "View all doctors",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -62,11 +62,11 @@ const Widget = ({ type, amount, link }) => {
         ),
       };
       break;
-    case "earning":
+    case "medicine":
       data = {
-        title: "EARNINGS",
+        title: "MEDICINES",
         isMoney: true,
-        link: "View net earnings",
+        link: "View net medicines",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"

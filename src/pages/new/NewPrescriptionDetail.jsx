@@ -140,7 +140,7 @@ const NewPrescriptionDetail = ({ inputs }) => {
     <div className="single">
       <AppLayout>
         <div className="top">
-          <h1>Thêm mới chit tiết dơn thuốc</h1>
+          <h1>Thêm mới chi tiết dơn thuốc</h1>
         </div>
         <div className="bottom">
           <div className="right">

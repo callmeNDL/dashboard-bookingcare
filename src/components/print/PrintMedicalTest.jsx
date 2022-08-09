@@ -22,6 +22,8 @@ function PrintMedicalTest() {
   }
   const date = new Date();
 
+  console.log(dataPrint);
+
   return (
     <>
       <button className="btn btn--green" onClick={handlePrint}><LocalPrintshopIcon />In phiếu xét nghiệm</button>
@@ -77,7 +79,13 @@ function PrintMedicalTest() {
             <div className='info__title'>Ngày lấy mẫu :</div>
             <div className='info__content'>{formatDate(dataPrint.data?.updatedAt)}</div>
           </div>
+          <div className='info '>
+            <div className='info__title'>Hình ảnh:</div>
+            <div className='info__content'><img src={dataPrint.data?.HinhAnhXN} alt="img-medicaltest"></img>
+            </div></div>
+
         </div>
+
 
         <div className='singed'>
           <div className='singed__date'>Hồ chí minh Ngày {date.getDate()} tháng {date.getMonth() + 1} năm {date.getFullYear()} </div>

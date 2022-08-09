@@ -1,3 +1,4 @@
+
 import './printMedicalEx.scss'
 import { useReactToPrint } from 'react-to-print';
 import { useRef } from 'react';
@@ -5,13 +6,14 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import { useSelector } from 'react-redux';
 import HeaderPrint from './HeaderPrint';
 
-function PrintPrescription() {
+function PrintInvoicePrescription() {
+  const date = new Date();
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
-  const dataPrint = useSelector((state) => state.print.prescription.current)
+  const dataPrint = useSelector((state) => state.print.invoicePrescription.current)
 
   function formatDate(input) {
     var datePart = input.match(/\d+/g),
@@ -20,9 +22,10 @@ function PrintPrescription() {
     return day + '/' + month + '/' + year;
   }
 
+  console.log(dataPrint);
   return (
     <>
-      <button className="btn btn--secondary" onClick={handlePrint}><LocalPrintshopIcon />In đơn thuốc</button>
+      <button className="btn btn--secondary" onClick={handlePrint}><LocalPrintshopIcon />In hoá đơn thuốc</button>
       <div className='print-medicalExamination' ref={componentRef}>
         <HeaderPrint />
         <div className='info-medical'>
@@ -30,7 +33,7 @@ function PrintPrescription() {
           <p>Mã đơn thuốc: {dataPrint.dataDT?.MaDT}</p>
         </div>
 
-        <h1 className='title'>ĐƠN THUỐC</h1>
+        <h1 className='title'>HOÁ ĐƠN THUỐC</h1>
 
         <div className='user'>
           <div className='info info--with50'>
@@ -55,24 +58,29 @@ function PrintPrescription() {
           </div>
         </div>
 
-        <div className='list-medicine'>
-          <div className='list-medicine__title'>
+        <div className='list-medicine invoice'>
+          <div className='list-medicine__title invoice__title'>
             <p>Thuốc điều trị</p>
-            <p>Số lượng</p>
+            <div className='count'>Số lượng  <p>Thành tiền</p></div>
           </div>
           {dataPrint.dataDTDetail?.map((item, index) => {
             return (
-              <div className='wrap'>
+              <div className='wrap invoice-pres-detail'>
                 <div className='stt'>{index + 1}</div>
                 <div className='medicine' key={item.id}>
                   <div className='medicine__name'>{item.Medicine.TenThuoc}</div>
-                  <div className='medicine__count'>X {item.SoLuong}</div>
-                  <div className='medicine__unit'>{item.Medicine.DonVi}</div>
+                  <div className='medicine__count invoice-pres-detail__count'>X {item.SoLuong}</div>
+                  <div className='medicine__unit invoice-pres-detail__unit'>{item.Medicine.DonVi}</div>
+                  <div className='medicine__unit invoice-pres-detail__dollar'>{item.TongTienThuoc.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+
                   <div className='medicine__desc'>{item.LieuLuong}</div>
                 </div>
               </div>
             )
           })}
+          <div className='total-money'>
+            <div className='total-money__title'>Tổng tiền: {(Math.round(dataPrint.dataDT.TongTienThuoc / 1000) * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+          </div>
           <div className='advice'>
             <div className='advice__title'>Lời dặn bác sĩ :</div>
             <div className='advice__content'>Đã tư vấn kỹ cho bệnh nhân về đơn thuốc và bệnh nhân đồng ý với sử dụng, khám lại sau {dataPrint.dataDTDetail[0]?.SoNgayUong} ngày</div>
@@ -80,7 +88,7 @@ function PrintPrescription() {
         </div>
 
         <div className='singed'>
-          <div className='singed__date'>Hồ chí minh Ngày 23 tháng 6 năm 2022 </div>
+          <div className='singed__date'>Hồ chí minh Ngày {date.getDate()} tháng {date.getMonth() + 1} năm {date.getFullYear()} </div>
           <div className='singed__title'>Bác sĩ khám bệnh</div>
           <div className='singed__content'></div>
         </div>
@@ -92,4 +100,4 @@ function PrintPrescription() {
   )
 }
 
-export default PrintPrescription
+export default PrintInvoicePrescription

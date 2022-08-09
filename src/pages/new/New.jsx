@@ -121,8 +121,6 @@ const New = ({ inputs, title, img, link }) => {
     if (title === "medicalExamination") {
       const bookingResult = await dispatch(getBooking());
       const dataBooking = unwrapResult(bookingResult);
-      const timetableResult = await dispatch(getTimetable());
-      const dataTimetable = unwrapResult(timetableResult);
       const clinicResult = await dispatch(getClinic());
       const dataClinic = unwrapResult(clinicResult);
 
@@ -130,9 +128,6 @@ const New = ({ inputs, title, img, link }) => {
       inputs.forEach(input => {
         if (input.key === "MaDL" && Object.keys(dataBooking).length !== 0) {
           input.data = dataBooking;
-        };
-        if (input.key === "CaKham" && Object.keys(dataTimetable).length !== 0) {
-          input.data = dataTimetable;
         };
         if (input.key === "MaPhong" && Object.keys(dataClinic).length !== 0) {
           input.data = dataClinic;
@@ -197,6 +192,8 @@ const New = ({ inputs, title, img, link }) => {
       })
     }
   }
+
+  console.log(inputs);
 
   const onSubmit = async (data) => {
     try {

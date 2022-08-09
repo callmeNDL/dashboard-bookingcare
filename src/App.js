@@ -20,6 +20,7 @@ import PrintExamination from './components/print/PrintMedicalExamination';
 import HomeDoctor from './pages/home/HomeDoctor';
 import PrintInvoice from './components/print/PrintInvoice';
 import PrintMedicalResult from './components/print/PrintMedicalResult';
+import PrintInvoicePrescription from './components/print/PrintInvoicePrescription';
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -42,8 +43,7 @@ function App() {
             <Route path="print-medicalExamination" element={<PrintExamination />} />
             <Route path="print-invoice" element={<PrintInvoice />} />
             <Route path="print-medicalResult" element={<PrintMedicalResult />} />
-
-
+            <Route path="print-invoicePrescription" element={<PrintInvoicePrescription />} />
             <Route path="users">
               <Route index element={<List colum={userColumns} title="users" titleApi="user" />} />
               <Route path=":userID" element={<Single inputs={userInputs} title="user" img="true" />} />

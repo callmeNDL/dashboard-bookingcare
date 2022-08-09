@@ -104,6 +104,34 @@
     }
   }
 
+  .invoice {
+    &__title {
+      padding-right: 0;
+
+      .count {
+        padding: 0 2%;
+        display: flex;
+        justify-content: space-between;
+        width: 25%;
+      }
+    }
+  }
+
+  .invoice-pres-detail{
+    position: relative;
+    &__count {
+      width: 50px !important;
+      transform: translateX(-40px);
+    }
+    &__unit {
+      transform: translateX(-40px);
+    }
+    &__dollar {
+      position: absolute;
+      right: 20px;
+    }
+  }
+
   .advice {
     margin-top: 20px;
     
@@ -113,6 +141,13 @@
       text-transform: inherit;
       border-bottom: 1px solid black;
     }
+  }
+
+  .total-money {
+    margin: 20px 0;
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
   }
 
   .singed {

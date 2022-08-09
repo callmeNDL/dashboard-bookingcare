@@ -191,7 +191,7 @@ const SingleBooking = ({ inputs, title }) => {
             <button className="btn"> <InfoIcon className=" icon" /> Chi tiết bệnh nhân</button>
           </Link>
           <button className="btn btn--green" onClick={handleNavigateMedical}> <MedicalInformationIcon className=" icon" /> Xem phiếu khám</button>
-          <button className="btn btn--secondary" onClick={handlePrintInvoice}> <AttachMoneyIcon className=" icon" />In hoá đơn</button>
+          {!auth.MaBS ? <button className="btn btn--secondary" onClick={handlePrintInvoice}> <AttachMoneyIcon className=" icon" />In hoá đơn</button> : ""}
         </div>
         <ToastContainer
           position="top-right"
